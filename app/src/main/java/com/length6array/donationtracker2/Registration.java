@@ -3,6 +3,7 @@ package com.length6array.donationtracker2;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -99,6 +100,7 @@ public class Registration extends AppCompatActivity implements LoaderCallbacks<C
             @Override
             public void onClick(View view) {
                 attemptLogin();
+                startActivity(new Intent(Registration.this, MainActivity.class));
             }
         });
 
@@ -151,7 +153,7 @@ public class Registration extends AppCompatActivity implements LoaderCallbacks<C
 
 
     /**
-     * Attempts to sign in or register the account specified by the login form.
+     * Attempts to register the account specified by the login form.
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
@@ -169,8 +171,6 @@ public class Registration extends AppCompatActivity implements LoaderCallbacks<C
         String password = mPasswordView.getText().toString();
         String retypedPassword = reTypePassword.getText().toString();
 
-        //TODO compare password with retyped password
-
         boolean cancel = false;
         View focusView = null;
 
@@ -178,6 +178,11 @@ public class Registration extends AppCompatActivity implements LoaderCallbacks<C
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
+            cancel = true;
+        }
+        if (!(password.equals(retypedPassword))){
+            reTypePassword.setError("Passwords do not match");
+            focusView = reTypePassword;
             cancel = true;
         }
 
