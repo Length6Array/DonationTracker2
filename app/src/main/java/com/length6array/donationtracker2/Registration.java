@@ -90,7 +90,6 @@ public class Registration extends AppCompatActivity implements LoaderCallbacks<C
         });
 
 
-
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }
