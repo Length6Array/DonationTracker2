@@ -23,4 +23,6 @@
     <string name="logout">Logout</string>
     <string name="hello">Hello!</string>
     <string name="prompt_Password">Password</string>
+    <string name="email_Taken">This email is already registered</string>
+    <string name="error_unregistered_email">Incorrect or unregistered email</string>
 </resources>

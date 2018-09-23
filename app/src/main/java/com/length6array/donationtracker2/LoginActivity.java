@@ -141,11 +141,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             if (mAuthTask.doInBackground()) {
                 startActivity((new Intent(LoginActivity.this, MainActivity.class)));
             } else {
-                Toast toast = Toast.makeText(getApplicationContext(),
-                        "Email or password invalid ",
-                        Toast.LENGTH_SHORT);
-
-                toast.show();
+//                Toast toast = Toast.makeText(getApplicationContext(),
+//                        "Email or password invalid ",
+//                        Toast.LENGTH_SHORT);
+//
+//                toast.show();
             }
         }
     }
@@ -276,7 +276,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 if (credentials.get(mEmail).equals(mPassword)) {
                     return true;
                 }
+                Log.i("LoginActivity", "Incorrect password");
+                mPasswordView.setError(getString(R.string.error_incorrect_password));
+                return false;
             }
+            Log.i("LoginActivity", "Incorrect/Unregistered email");
+            mEmailView.setError(getString(R.string.error_unregistered_email));
             return false;
         }
 

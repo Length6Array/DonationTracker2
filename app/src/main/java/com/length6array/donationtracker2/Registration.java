@@ -32,7 +32,6 @@ import java.util.ArrayList;
 import android.widget.Toast;
 import java.util.List;
 
-import static android.Manifest.permission.READ_CONTACTS;
 
 /**
  * A login screen that offers login via email/password.
@@ -76,6 +75,7 @@ public class Registration extends AppCompatActivity implements LoaderCallbacks<C
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.i("Registration", "Clicked register");
                 attemptLogin();
             }
         });
@@ -149,6 +149,7 @@ public class Registration extends AppCompatActivity implements LoaderCallbacks<C
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
             if (mAuthTask.doInBackground()){
+                Log.i("Registration", "Switching to main");
                 startActivity(new Intent(Registration.this, MainActivity.class));
             }
         }
@@ -277,6 +278,7 @@ public class Registration extends AppCompatActivity implements LoaderCallbacks<C
 
             if (LoginActivity.credentials.containsKey(mEmail)){
                 Log.i("Registration", "Found taken email");
+                mEmailView.setError(getString(R.string.email_Taken));
                 return false;
             } else {
                 Log.i("Registration", "Making new account");
