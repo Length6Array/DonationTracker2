@@ -156,7 +156,7 @@ public class Registration extends AppCompatActivity implements LoaderCallbacks<C
     }
 
     private boolean isEmailValid(String email) {
-        return email.contains("@");
+        return email.contains("@") && email.contains(".com");
     }
 
     private boolean isPasswordValid(String password) {
