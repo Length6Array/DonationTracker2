@@ -34,8 +34,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static android.Manifest.permission.READ_CONTACTS;
-
 /**
  * A login screen that offers login via email/password.
  */
@@ -45,7 +43,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Stores Email and passwords
      */
     protected static HashMap<String, String> credentials = new HashMap<>();
-    protected static ArrayList<String> emails = new ArrayList<>();
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -80,9 +77,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i("LoginActivity", "Clicked loginButton");
                 attemptLogin();
-                startActivity((new Intent(LoginActivity.this, MainActivity.class)));
             }
         });
 
@@ -137,17 +132,21 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             focusView = mEmailView;
             cancel = true;
         }
-
         if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
             focusView.requestFocus();
         } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
+            if (mAuthTask.doInBackground()) {
+                startActivity((new Intent(LoginActivity.this, MainActivity.class)));
+            } else {
+                Toast toast = Toast.makeText(getApplicationContext(),
+                        "Email or password invalid ",
+                        Toast.LENGTH_SHORT);
+
+                toast.show();
+            }
         }
     }
 
@@ -273,21 +272,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 return false;
             }
 
-            if (emails.contains(mEmail)) {
+            if (credentials.containsKey(mEmail)) {
                 if (credentials.get(mEmail).equals(mPassword)) {
                     return true;
-                } else {
-                    Toast toast = Toast.makeText(getApplicationContext(),
-                            "Password incorrect. Please try again.",
-                            Toast.LENGTH_SHORT);
-                    return false;
                 }
-            } else{
-                Toast toast = Toast.makeText(getApplicationContext(),
-                        "Email not found. Please register.",
-                        Toast.LENGTH_SHORT);
-                return false;
             }
+            return false;
         }
 
         @Override
@@ -310,11 +300,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
-    public static ArrayList<String> getEmails(){
-        return emails;
-    }
     public static void setEmails(String email, String password){
-        emails.add(email);
         credentials.put(email, password);
     }
 

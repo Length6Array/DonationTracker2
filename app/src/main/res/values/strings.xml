@@ -22,4 +22,5 @@
     <string name="retype_password">Retype Password</string>
     <string name="logout">Logout</string>
     <string name="hello">Hello!</string>
+    <string name="prompt_Password">Password</string>
 </resources>

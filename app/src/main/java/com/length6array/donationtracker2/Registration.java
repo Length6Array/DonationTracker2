@@ -3,6 +3,7 @@ package com.length6array.donationtracker2;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -39,19 +40,6 @@ import static android.Manifest.permission.READ_CONTACTS;
 public class Registration extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
     /**
-     * Id to identity READ_CONTACTS permission request.
-     */
-    private static final int REQUEST_READ_CONTACTS = 0;
-
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
-
-
-    /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
@@ -69,39 +57,39 @@ public class Registration extends AppCompatActivity implements LoaderCallbacks<C
         setContentView(R.layout.activity_registration);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-       // populateAutoComplete();
 
         mPasswordView = (EditText) findViewById(R.id.password);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//
+        reTypePassword = (EditText) findViewById(R.id.reTypePassword);
+        reTypePassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_NULL){
                     attemptLogin();
                     return true;
                 }
                 return false;
             }
         });
-//        reTypePassword = (EditText) findViewById(R.id.retypePassword);
-//        reTypePassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-//            @Override
-//            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-//                if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_NULL){
-//                    attemptLogin();
-//                    return true;
-//                }
-//                return false;
-//            }
-//        });
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptLogin();
-                //startActivity(new Intent(Registration.this, MainActivity.class));
             }
         });
+
+        Button cancel = (Button) findViewById(R.id.cancel);
+        cancel.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("Registration", "Clicked cancel");
+                startActivity(new Intent(Registration.this, Welcome.class));
+            }
+        });
+
+
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
@@ -124,7 +112,7 @@ public class Registration extends AppCompatActivity implements LoaderCallbacks<C
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
-       // String retypedPassword = reTypePassword.getText().toString();
+        String retypedPassword = reTypePassword.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -145,8 +133,11 @@ public class Registration extends AppCompatActivity implements LoaderCallbacks<C
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
             cancel = true;
+        } else if (!(password.equals(retypedPassword))){
+            mPasswordView.setError(getString(R.string.error_incorrect_password));
+            focusView = mPasswordView;
+            cancel = true;
         }
-
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
@@ -157,6 +148,9 @@ public class Registration extends AppCompatActivity implements LoaderCallbacks<C
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
+            if (mAuthTask.doInBackground()){
+                startActivity(new Intent(Registration.this, MainActivity.class));
+            }
         }
     }
 
@@ -280,19 +274,12 @@ public class Registration extends AppCompatActivity implements LoaderCallbacks<C
             } catch (InterruptedException e) {
                 return false;
             }
-           // LoginActivity login = new LoginActivity();
-            //ArrayList<String> emails = LoginActivity.getEmails();
-            if (LoginActivity.getEmails().contains(mEmail)){
-                Log.i("Registration", "Found taken email");
-                Toast toast = Toast.makeText(getApplicationContext(),
-                        "Email already taken. Log on or use new email.",
-                        Toast.LENGTH_SHORT);
 
-                toast.show();
+            if (LoginActivity.credentials.containsKey(mEmail)){
+                Log.i("Registration", "Found taken email");
                 return false;
             } else {
                 Log.i("Registration", "Making new account");
-               // if (reTypePassword.equals())
                 LoginActivity.setEmails(mEmail, mPassword);
                 return true;
             }
