@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -80,15 +81,14 @@ public class Registration extends AppCompatActivity implements LoaderCallbacks<C
             }
         });
 
-        Button cancel = (Button) findViewById(R.id.cancel);
-        cancel.setOnClickListener(new OnClickListener() {
+        FloatingActionButton back = (FloatingActionButton) findViewById(R.id.back);
+        back.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("Registration", "Clicked cancel");
+                Log.i("Registration", "Clicked back");
                 startActivity(new Intent(Registration.this, Welcome.class));
             }
         });
-
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);

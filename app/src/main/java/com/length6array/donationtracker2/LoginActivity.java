@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -81,15 +82,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        Button cancel = (Button) findViewById(R.id.cancelButton);
-        cancel.setOnClickListener(new OnClickListener() {
+        FloatingActionButton back = (FloatingActionButton) findViewById(R.id.back);
+        back.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.i("LoginActivity", "Clicked cancel");
                 startActivity(new Intent(LoginActivity.this, Welcome.class));
-            }
-        });
-
+        }
+    });
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }

@@ -24,7 +24,7 @@
     <ScrollView
         android:id="@+id/login_form"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="481dp">
 
         <LinearLayout
             android:id="@+id/email_login_form"
@@ -77,12 +77,15 @@
                 android:text="@string/login"
                 android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/cancelButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/cancel" />
-
         </LinearLayout>
     </ScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/back"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        app:backgroundTint="?attr/colorAccent"
+        app:srcCompat="@android:drawable/ic_menu_revert" />
 </LinearLayout>
