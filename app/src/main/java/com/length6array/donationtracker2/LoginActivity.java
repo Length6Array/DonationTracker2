@@ -282,14 +282,28 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 return false;
             }
 
-            if (credentials.containsKey(mEmail)) {
-                if (credentials.get(mEmail).equals(mPassword)) {
-                    return true;
+            for (Person p : allUsers){
+                if (p.getEmail().equals(mEmail)){
+                    if (p.getPassword().equals(mPassword)){
+                        if (p.getUserType().equals(muserType)){
+                            return true;
+                        }
+                    }
+                    else {
+                        Log.i("LoginActivity", "Incorrect password");
+                        mPasswordView.setError(getString(R.string.error_incorrect_password));
+                        return false;
+                    }
                 }
-                Log.i("LoginActivity", "Incorrect password");
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                return false;
             }
+//            if (credentials.containsKey(mEmail)) {
+//                if (credentials.get(mEmail).equals(mPassword)) {
+//                    return true;
+//                }
+//                Log.i("LoginActivity", "Incorrect password");
+//                mPasswordView.setError(getString(R.string.error_incorrect_password));
+//                return false;
+//            }
             Log.i("LoginActivity", "Incorrect/Unregistered email");
             mEmailView.setError(getString(R.string.error_unregistered_email));
             return false;
