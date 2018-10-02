@@ -83,6 +83,19 @@
 
             </android.support.design.widget.TextInputLayout>
 
+            <TextView
+                android:id="@+id/person"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/user_type"
+                android:textAllCaps="false"
+                android:textSize="18sp" />
+
+            <Spinner
+                android:id="@+id/personType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
             <Button
                 android:id="@+id/email_sign_in_button"
                 style="?android:textAppearanceSmall"

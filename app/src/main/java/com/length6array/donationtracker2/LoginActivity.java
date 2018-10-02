@@ -28,10 +28,12 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -40,10 +42,13 @@ import java.util.List;
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
+    public static List<String> userType = Arrays.asList("User", "Admin");
     /**
-     * Stores Email and passwords
+     * Stores Email and passwords. Will be phased out and replaced with Person objects
      */
     protected static HashMap<String, String> credentials = new HashMap<>();
+
+    protected static ArrayList<Person> allUsers = new ArrayList<>();
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -54,6 +59,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private Spinner userSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +98,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     });
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+        userSpinner = findViewById(R.id.userSpinner);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, userType);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        userSpinner.setAdapter(adapter);
     }
 
     /**
@@ -111,6 +122,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
+        String userType = userSpinner.getSelectedItem().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -136,16 +148,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             focusView.requestFocus();
         } else {
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
+            mAuthTask = new UserLoginTask(email, password, userType);
             mAuthTask.execute((Void) null);
             if (mAuthTask.doInBackground()) {
                 startActivity((new Intent(LoginActivity.this, MainActivity.class)));
             } else {
-//                Toast toast = Toast.makeText(getApplicationContext(),
-//                        "Email or password invalid ",
-//                        Toast.LENGTH_SHORT);
-//
-//                toast.show();
+//               //TODO
             }
         }
     }
@@ -256,10 +264,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         private final String mEmail;
         private final String mPassword;
+        private final String muserType;
 
-        UserLoginTask(String email, String password) {
+        UserLoginTask(String email, String password, String userType) {
             mEmail = email;
             mPassword = password;
+            muserType = userType;
         }
 
         @Override
@@ -305,7 +315,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
-    public static void setEmails(String email, String password){
+    public static void setEmails(String email, String password, String userType){
+        Person user = new Person(email, password, userType);
+        allUsers.add(user);
         credentials.put(email, password);
     }
 

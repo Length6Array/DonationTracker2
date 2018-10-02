@@ -25,4 +25,6 @@
     <string name="prompt_Password">Password</string>
     <string name="email_Taken">This email is already registered</string>
     <string name="error_unregistered_email">Incorrect or unregistered email</string>
+    <string name="user_info">User info</string>
+    <string name="user_type">User Type:</string>
 </resources>

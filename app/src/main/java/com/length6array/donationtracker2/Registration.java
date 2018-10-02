@@ -28,6 +28,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Spinner;
 
 import java.util.ArrayList;
 import android.widget.Toast;
@@ -50,6 +51,7 @@ public class Registration extends AppCompatActivity implements LoaderCallbacks<C
     private View mProgressView;
     private View mLoginFormView;
     private EditText reTypePassword;
+    private Spinner userSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +94,11 @@ public class Registration extends AppCompatActivity implements LoaderCallbacks<C
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+        userSpinner = findViewById(R.id.personType);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, LoginActivity.userType);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        userSpinner.setAdapter(adapter);
     }
 
     /**
@@ -112,6 +119,7 @@ public class Registration extends AppCompatActivity implements LoaderCallbacks<C
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
         String retypedPassword = reTypePassword.getText().toString();
+        String userType = userSpinner.getSelectedItem().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -145,7 +153,7 @@ public class Registration extends AppCompatActivity implements LoaderCallbacks<C
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
+            mAuthTask = new UserLoginTask(email, password, userType);
             mAuthTask.execute((Void) null);
             if (mAuthTask.doInBackground()){
                 Log.i("Registration", "Switching to main");
@@ -260,10 +268,12 @@ public class Registration extends AppCompatActivity implements LoaderCallbacks<C
 
         private final String mEmail;
         private final String mPassword;
+        private final String mUserType;
 
-        UserLoginTask(String email, String password) {
+        UserLoginTask(String email, String password, String userType) {
             mEmail = email;
             mPassword = password;
+            mUserType = userType;
         }
 
         @Override
@@ -281,7 +291,7 @@ public class Registration extends AppCompatActivity implements LoaderCallbacks<C
                 return false;
             } else {
                 Log.i("Registration", "Making new account");
-                LoginActivity.setEmails(mEmail, mPassword);
+                LoginActivity.setEmails(mEmail, mPassword, mUserType);
                 return true;
             }
         }
