@@ -5,7 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,6 +18,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    //all locations
+    private List<Location> locations = new ArrayList<Location>();
+
+    ListView listView;
+    ArrayAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +38,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         readLocations();
+
+        listView = findViewById(R.id.locations);
+        adapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1);
+        for (int i = 0; i < locations.size(); i++){
+            adapter.insert(locations.get(i).getName(), i);
+        }
+        listView.setAdapter(adapter);
     }
 
-    private List<Location> locations = new ArrayList<Location>();
+    /**
+     * Reads in the locations from the csv file found in res.raw
+     */
     private void readLocations(){
         InputStream is = getResources().openRawResource(R.raw.locations);
         BufferedReader reader = new BufferedReader(
@@ -49,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
                 String[] tokens = line.split(",");
 
                 //actually parsing and setting
-                //TODO error checking
+                //TODO error checking!!
                 Location newLocation = new Location();
                 newLocation.setKey(Integer.parseInt(tokens[0]));
                 newLocation.setName(tokens[1]);
@@ -65,12 +82,16 @@ public class MainActivity extends AppCompatActivity {
 
                 locations.add(newLocation);
 
-                Log.i("MainActivity", "Just Added" + newLocation);
+                Log.i("MainActivity", "Just Added: " + newLocation.getName());
             }
         }catch (IOException e){
             Log.i("MainActivity", "Error reading Location Data");
             e.printStackTrace();
         }
     }
+
+
+
+
 
 }
