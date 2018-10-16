@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, Welcome.class));
             }
         });
-        readLocations();
 
         listView = findViewById(R.id.locations);
         adapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1);
@@ -46,50 +45,6 @@ public class MainActivity extends AppCompatActivity {
         }
         listView.setAdapter(adapter);
     }
-
-    /**
-     * Reads in the locations from the csv file found in res.raw
-     */
-    private void readLocations(){
-        InputStream is = getResources().openRawResource(R.raw.locations);
-        BufferedReader reader = new BufferedReader(
-                new InputStreamReader(is, Charset.forName("UTF-8") )
-        );
-
-        String line = "";
-        try {
-            //this steps over the header!
-            reader.readLine();
-
-            while ( (line = reader.readLine()) != null){
-                //this splits the data
-                String[] tokens = line.split(",");
-
-                //actually parsing and setting
-                //TODO error checking!!
-                Location newLocation = new Location();
-                newLocation.setKey(Integer.parseInt(tokens[0]));
-                newLocation.setName(tokens[1]);
-                newLocation.setLatitude(Float.parseFloat(tokens[2]));
-                newLocation.setLongitude(Float.parseFloat(tokens[3]));
-                newLocation.setAddress(tokens[4]);
-                newLocation.setCity(tokens[5]);
-                newLocation.setState(tokens[6]);
-                newLocation.setZipCode(Integer.parseInt(tokens[7]));
-                newLocation.setType(tokens[8]);
-                newLocation.setPhone(tokens[9]);
-                newLocation.setWebsite(tokens[10]);
-
-                locations.add(newLocation);
-
-                Log.i("MainActivity", "Just Added: " + newLocation.getName());
-            }
-        }catch (IOException e){
-            Log.i("MainActivity", "Error reading Location Data");
-            e.printStackTrace();
-        }
-    }
-
 
 
 

@@ -29,4 +29,6 @@
     <string name="user_type">User Type:</string>
     <string name="textview">TextView</string>
     <string name="locations">Locations</string>
+    <string name="title_location_list">Locations</string>
+    <string name="title_location_detail">Location Detail</string>
 </resources>
