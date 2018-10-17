@@ -64,11 +64,11 @@ public class LocationDetailFragment extends Fragment {
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
             ((TextView) rootView.findViewById(R.id.location_detail)).setText(mItem.getAddress());
-            ((TextView) rootView.findViewById(R.id.location_detail)).setText(mItem.getCity());
-            ((TextView) rootView.findViewById(R.id.location_detail)).setText(mItem.getPhone());
             TextView address = new TextView(this.getContext());
-
             address.setText(mItem.getAddress());
+
+            //THIS IS WHAT NEEDS TO BE COMPLETED.
+            //NEED TO ADD THE OTHER ATTRIBUTES
            // container.addView(address);
         }
 
