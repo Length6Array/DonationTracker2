@@ -63,10 +63,42 @@ public class LocationDetailFragment extends Fragment {
 
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.location_detail)).setText(mItem.getAddress());
-            TextView address = new TextView(this.getContext());
+            //((TextView) rootView.findViewById(R.id.location_detail)).setText(mItem.getAddress());
+            //TextView address = new TextView(this.getContext());
+            TextView address = ((TextView) rootView.findViewById(R.id.location_detail));
             address.setText(mItem.getAddress());
+            TextView city = ((TextView) rootView.findViewById(R.id.city_detail));
+            city.setText(mItem.getCity());
+            TextView state = ((TextView) rootView.findViewById(R.id.state_detail));
+            state.setText(mItem.getState());
+            TextView zipCode = ((TextView) rootView.findViewById(R.id.zipcode_detail));
+            zipCode.setText(Integer.toString(mItem.getZipCode()));
+            TextView latitude = ((TextView) rootView.findViewById(R.id.latitude_detail));
+            latitude.setText(Float.toString(mItem.getLatitude()));
+            TextView longitude = ((TextView) rootView.findViewById(R.id.longitude_detail));
+            longitude.setText(Float.toString(mItem.getLongitude()));
+            TextView phone = ((TextView) rootView.findViewById(R.id.phone_detail));
+            phone.setText(mItem.getPhone());
+            TextView type = ((TextView) rootView.findViewById(R.id.type_detail));
+            type.setText(mItem.getType());
+            TextView website = ((TextView) rootView.findViewById(R.id.website_detail));
+            website.setText(mItem.getWebsite());
 
+            /**((TextView) rootView.findViewById(R.id.location_detail)).setText(Float.toString(mItem.getLatitude()));
+            TextView latitude = new TextView(this.getContext());
+            latitude.setText(Float.toString(mItem.getLatitude()));
+            ((TextView) rootView.findViewById(R.id.location_detail)).setText(Float.toString((mItem.getLongitude())));
+            TextView longitude = new TextView(this.getContext());
+            longitude.setText(Float.toString(mItem.getLongitude()));
+            ((TextView) rootView.findViewById(R.id.location_detail)).setText(mItem.getPhone());
+            TextView phone = new TextView(this.getContext());
+            phone.setText(mItem.getPhone());
+            ((TextView) rootView.findViewById(R.id.location_detail)).setText(mItem.getType());
+            TextView type = new TextView(this.getContext());
+            type.setText(mItem.getType());
+            ((TextView) rootView.findViewById(R.id.location_detail)).setText(mItem.getWebsite());
+            TextView website = new TextView(this.getContext());
+            website.setText(mItem.getWebsite());**/
             //THIS IS WHAT NEEDS TO BE COMPLETED.
             //NEED TO ADD THE OTHER ATTRIBUTES
            // container.addView(address);
