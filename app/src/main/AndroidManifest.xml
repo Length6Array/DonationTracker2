@@ -27,7 +27,6 @@
         <activity
             android:name=".Registration"
             android:label="@string/title_activity_registration" />
-        <activity android:name=".MainActivity" />
         <activity
             android:name=".LocationListActivity"
             android:label="@string/title_location_list"
