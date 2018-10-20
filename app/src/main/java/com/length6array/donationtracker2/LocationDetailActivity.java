@@ -31,6 +31,7 @@ public class LocationDetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                startActivity((new Intent(LocationDetailActivity.this, DonationActivity.class)));
             }
         });
 

@@ -31,4 +31,5 @@
     <string name="locations">Locations</string>
     <string name="title_location_list">Locations</string>
     <string name="title_location_detail">Location Detail</string>
+    <string name="title_activity_add_donation">AddDonation</string>
 </resources>

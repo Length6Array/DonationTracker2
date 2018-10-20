@@ -3,6 +3,8 @@ package com.length6array.donationtracker2;
 import android.app.Activity;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -83,25 +85,6 @@ public class LocationDetailFragment extends Fragment {
             type.setText(mItem.getType());
             TextView website = ((TextView) rootView.findViewById(R.id.website_detail));
             website.setText(mItem.getWebsite());
-
-            /**((TextView) rootView.findViewById(R.id.location_detail)).setText(Float.toString(mItem.getLatitude()));
-            TextView latitude = new TextView(this.getContext());
-            latitude.setText(Float.toString(mItem.getLatitude()));
-            ((TextView) rootView.findViewById(R.id.location_detail)).setText(Float.toString((mItem.getLongitude())));
-            TextView longitude = new TextView(this.getContext());
-            longitude.setText(Float.toString(mItem.getLongitude()));
-            ((TextView) rootView.findViewById(R.id.location_detail)).setText(mItem.getPhone());
-            TextView phone = new TextView(this.getContext());
-            phone.setText(mItem.getPhone());
-            ((TextView) rootView.findViewById(R.id.location_detail)).setText(mItem.getType());
-            TextView type = new TextView(this.getContext());
-            type.setText(mItem.getType());
-            ((TextView) rootView.findViewById(R.id.location_detail)).setText(mItem.getWebsite());
-            TextView website = new TextView(this.getContext());
-            website.setText(mItem.getWebsite());**/
-            //THIS IS WHAT NEEDS TO BE COMPLETED.
-            //NEED TO ADD THE OTHER ATTRIBUTES
-           // container.addView(address);
         }
 
         return rootView;
