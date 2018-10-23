@@ -19,6 +19,7 @@ public class Location {
      */
     public static final List<Location> locations = new ArrayList<Location>();
 
+
     /**
      * A map of sample (dummy) items, by ID.
      */

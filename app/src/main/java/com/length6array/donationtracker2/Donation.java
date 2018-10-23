@@ -2,12 +2,17 @@ package com.length6array.donationtracker2;
 
 import 	android.media.Image;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Donation {
 
     /*
     Categories of Donated goods: Clothing, Hat, Kitchen, Electronics, Household, Other
 
      */
+
+    public static List<Donation> donations = new ArrayList<>();
 
     private String name;
     private Location location;
@@ -24,6 +29,8 @@ public class Donation {
         dateAdded = date;
 
     }
+    public Donation(){};
+
 
     public String getName() {
         return name;

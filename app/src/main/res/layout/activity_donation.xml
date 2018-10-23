@@ -51,7 +51,20 @@
             android:inputType="date" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/location"
+            android:textSize="18sp" />
+
+        <Spinner
+            android:id="@+id/locations"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/item_type"
@@ -60,7 +73,8 @@
         <Spinner
             android:id="@+id/category"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:visibility="visible" />
 
         <EditText
             android:id="@+id/value"
@@ -92,9 +106,11 @@
         android:id="@+id/add"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_margin="@dimen/fab_margin"
         android:clickable="true"
         android:focusable="true"
-        app:layout_anchorGravity="bottom"
+        app:layout_anchorGravity="bottom|center"
         app:srcCompat="@android:drawable/ic_menu_add" />
 
 </android.support.design.widget.CoordinatorLayout>

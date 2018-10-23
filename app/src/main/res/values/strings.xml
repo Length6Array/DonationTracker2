@@ -37,4 +37,5 @@
     <string name="item_type">Item Type:</string>
     <string name="value">Price</string>
     <string name="description">Description of Item</string>
+    <string name="location">Location</string>
 </resources>
