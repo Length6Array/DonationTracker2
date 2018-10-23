@@ -43,6 +43,10 @@
         <activity
             android:name=".DonationActivity"
             android:label="@string/title_activity_add_donation"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main"
             android:theme="@style/AppTheme"></activity>
     </application>
 

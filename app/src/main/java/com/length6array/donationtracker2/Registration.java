@@ -157,7 +157,7 @@ public class Registration extends AppCompatActivity implements LoaderCallbacks<C
             mAuthTask.execute((Void) null);
             if (mAuthTask.doInBackground()){
                 Log.i("Registration", "Switching to main");
-                startActivity(new Intent(Registration.this, LocationListActivity.class));
+                startActivity(new Intent(Registration.this, MainActivity.class));
             }
         }
     }
