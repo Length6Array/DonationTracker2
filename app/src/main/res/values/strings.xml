@@ -40,4 +40,6 @@
     <string name="location">Location</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="donations">Donations</string>
+    <string name="title_donations_list">Items</string>
+    <string name="title_donations_detail">Donations Detail</string>
 </resources>

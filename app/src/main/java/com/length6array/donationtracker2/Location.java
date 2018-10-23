@@ -25,7 +25,6 @@ public class Location {
      */
     public static final Map<String, Location> ITEM_MAP = new HashMap<String, Location>();
 
-    public List<Donation> donationItems = new ArrayList<>();
 
     private static void addLocation(Location location) {
         locations.add(location);
@@ -53,6 +52,7 @@ public class Location {
     private String type;
     private String phone;
     private String website;
+    public List<Donation> donationItems = new ArrayList<>();
 
     public int getKey() {
         return key;

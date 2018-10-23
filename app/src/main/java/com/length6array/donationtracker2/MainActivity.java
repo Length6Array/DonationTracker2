@@ -18,6 +18,18 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        FloatingActionButton fab = findViewById(R.id.fab);
+
+        //logout essentially
+        fab.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                //TODO log out the person
+                startActivity(new Intent(MainActivity.this, Welcome.class));
+
+            }
+        });
+
         Button location =  findViewById(R.id.goToLocations);
         location.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -31,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         donation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, DonationActivity.class));
+                startActivity(new Intent(MainActivity.this, DonationsListActivity.class));
             }
 
         });

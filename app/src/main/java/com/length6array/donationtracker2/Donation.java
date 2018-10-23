@@ -3,7 +3,9 @@ package com.length6array.donationtracker2;
 import 	android.media.Image;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Donation {
 
@@ -14,6 +16,26 @@ public class Donation {
 
     public static List<Donation> donations = new ArrayList<>();
 
+    public static final Map<String, Donation> DONATION_MAP = new HashMap<>();
+
+    public static List<Donation> getDonations() {
+        return donations;
+    }
+
+    public static void setDonations(Donation donation) {
+        DONATION_MAP.put(donation.name, donation);
+        Donation.donations.add(donation);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    private int id;
     private String name;
     private Location location;
     private String dateAdded;
