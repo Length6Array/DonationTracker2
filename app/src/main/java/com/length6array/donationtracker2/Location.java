@@ -17,30 +17,20 @@ public class Location {
     /**
      * An array of sample (dummy) items.
      */
-    public static final List<Location> ITEMS = new ArrayList<Location>();
+    public static final List<Location> locations = new ArrayList<Location>();
 
     /**
      * A map of sample (dummy) items, by ID.
      */
     public static final Map<String, Location> ITEM_MAP = new HashMap<String, Location>();
 
-    private static int COUNT = ITEMS.size();
+    public List<Donation> donationItems = new ArrayList<>();
 
-//    static {
-//        for (int i = 1; i <= COUNT; i++) {
-//            addItem(createLocationItem(i));
-//        }
-//    }
-
-
-    private static void addItem(Location item) {
-        ITEMS.add(item);
-        ITEM_MAP.put(item.getName(), item);
+    private static void addLocation(Location location) {
+        locations.add(location);
+        ITEM_MAP.put(location.getName(), location);
     }
 
-//    private static Location createLocationItem(int position) {
-//        return new Location(String.valueOf(position), "Item " + position, makeDetails(position));
-//    }
 
     private static String makeDetails(int position) {
         StringBuilder builder = new StringBuilder();
@@ -149,6 +139,10 @@ public class Location {
 
     public void setWebsite(String website) {
         this.website = website;
+    }
+
+    public void addDonation(Donation donation) {
+        donationItems.add(donation);
     }
 
 

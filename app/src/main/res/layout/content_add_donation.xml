@@ -6,6 +6,6 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".DonationActivity"
-    tools:showIn="@layout/activity_add_donation">
+    tools:showIn="@layout/activity_donation">
 
 </android.support.constraint.ConstraintLayout>

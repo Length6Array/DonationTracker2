@@ -72,7 +72,7 @@ public class LocationListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, Location.ITEMS, mTwoPane));
+        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, Location.locations, mTwoPane));
     }
 
     public static class SimpleItemRecyclerViewAdapter
@@ -160,9 +160,9 @@ public class LocationListActivity extends AppCompatActivity {
                 String[] tokens = line.split(",");
 
                 //checking for duplicate
-                Log.i("LocationListActivity", "Location Items size: " + Location.ITEMS.size());
-                for (int i = 0; i < Location.ITEMS.size(); i++) {
-                    if ((Location.ITEMS.get(i).getName().equals(tokens[1]))) {
+                Log.i("LocationListActivity", "Location Items size: " + Location.locations.size());
+                for (int i = 0; i < Location.locations.size(); i++) {
+                    if ((Location.locations.get(i).getName().equals(tokens[1]))) {
                         Log.i("LocationListActivity", "Duplicate: " + tokens[1]);
                         duplicate = true;
                     }
@@ -183,7 +183,7 @@ public class LocationListActivity extends AppCompatActivity {
                     newLocation.setPhone(tokens[9]);
                     newLocation.setWebsite(tokens[10]);
 
-                    Location.ITEMS.add(newLocation);
+                    Location.locations.add(newLocation);
                     Location.ITEM_MAP.put(newLocation.getName(), newLocation);
                     Log.i("LocationListActivity", "Just Added: " + newLocation.getName());
                 }

@@ -25,8 +25,18 @@ public class LocationDetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton editLocation = (FloatingActionButton) findViewById(R.id.editLocation);
+        editLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                startActivity((new Intent(LocationDetailActivity.this, DonationActivity.class)));
+            }
+        });
+
+        FloatingActionButton addDonation = (FloatingActionButton) findViewById(R.id.addDonation);
+        addDonation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)

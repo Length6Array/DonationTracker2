@@ -42,7 +42,7 @@ import java.util.List;
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
-    public static List<String> userType = Arrays.asList("User", "Admin");
+    public static List<String> userType = Arrays.asList("User", "Admin", "Guest");
     /**
      * Stores Email and passwords. Will be phased out and replaced with Person objects
      */

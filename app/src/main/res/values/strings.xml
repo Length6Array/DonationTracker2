@@ -32,4 +32,9 @@
     <string name="title_location_list">Locations</string>
     <string name="title_location_detail">Location Detail</string>
     <string name="title_activity_add_donation">AddDonation</string>
+    <string name="name">Item Name</string>
+    <string name="date">Date</string>
+    <string name="item_type">Item Type:</string>
+    <string name="value">Price</string>
+    <string name="description">Description of Item</string>
 </resources>
