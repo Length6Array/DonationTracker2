@@ -3,38 +3,54 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/location"
-    style="?android:attr/textAppearanceLarge"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp"
-    android:textIsSelectable="true"
-    tools:context=".DonationsDetailFragment" />
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/location"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:textIsSelectable="true"
+        tools:context=".DonationsDetailFragment" />
 
     <TextView
+        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/type"
         style="?android:attr/textAppearanceLarge"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:padding="16dp"
-        android:text="TextView" />
+        android:textIsSelectable="true"
+        tools:context=".DonationsDetailFragment"   />
 
     <TextView
+        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/date"
         style="?android:attr/textAppearanceLarge"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:padding="16dp"
-        android:text="TextView" />
+        android:textIsSelectable="true"
+        tools:context=".DonationsDetailFragment"  />
 
     <TextView
+        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/description"
         style="?android:attr/textAppearanceLarge"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:padding="16dp"
-        android:text="TextView" />
+        android:textIsSelectable="true"
+        tools:context=".DonationsDetailFragment" />
+
+    <TextView
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/value"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:textIsSelectable="true"
+        tools:context=".DonationsDetailFragment"  />
 
 </LinearLayout>

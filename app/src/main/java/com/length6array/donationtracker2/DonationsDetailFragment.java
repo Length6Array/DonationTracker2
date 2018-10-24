@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 
@@ -70,10 +72,11 @@ public class DonationsDetailFragment extends Fragment {
 
         // Show as text in a TextView.
         if (donation != null) {
-            ((TextView) rootView.findViewById(R.id.location)).setText(donation.getLocation());
-            ((TextView) rootView.findViewById(R.id.type)).setText(donation.getType());
-            ((TextView) rootView.findViewById(R.id.date)).setText(donation.getDateAdded());
-            ((TextView) rootView.findViewById(R.id.description)).setText(donation.getDescription());
+            ((TextView) rootView.findViewById(R.id.location)).setText("Location: " + donation.getLocation());
+            ((TextView) rootView.findViewById(R.id.type)).setText("Item Type: " + donation.getType());
+            ((TextView) rootView.findViewById(R.id.value)).setText("Value: $" + donation.getValue());
+            ((TextView) rootView.findViewById(R.id.date)).setText("Date Added: " + donation.getDateAdded());
+            ((TextView) rootView.findViewById(R.id.description)).setText("Description: " + donation.getDescription());
         }
 
         return rootView;

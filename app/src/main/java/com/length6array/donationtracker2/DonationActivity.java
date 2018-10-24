@@ -29,6 +29,7 @@ public class DonationActivity extends AppCompatActivity {
 
     private EditText name;
     private EditText value;
+    private EditText date;
     private EditText description;
     private Spinner type;
     private Spinner location;
@@ -57,6 +58,7 @@ public class DonationActivity extends AppCompatActivity {
         type = findViewById(R.id.category);
         location = findViewById(R.id.locations);
         value = findViewById(R.id.value);
+        date = findViewById(R.id.date);
 
 
         ArrayAdapter<String> adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, categories);
@@ -85,21 +87,16 @@ public class DonationActivity extends AppCompatActivity {
                        if (description != null){
                            if (type != null){
 
-
                                Donation newDonation = new Donation();
                                newDonation.setName(name.getText().toString());
                                newDonation.setType(type.getSelectedItem().toString());
+                               newDonation.setDateAdded(date.getText().toString());
                                newDonation.setDescription(description.getText().toString());
                                newDonation.setValue(Float.valueOf(value.getText().toString()));
                                newDonation.setLocation(Location.ITEM_MAP.get(location.getSelectedItem().toString()));
-                               Log.i("DonationActivity.class",
-                                       newDonation.getName() +  "/n" +
-                                       newDonation.getType() +
-                                       newDonation.getLocation() +
-                                       newDonation.getValue());
-
-                               //TODO date, value, image, short description
                                Donation.setDonations(newDonation);
+                               Location.ITEM_MAP.get(newDonation.getLocation()).addDonation(newDonation);
+
                                Log.i("DonationActivity.class", "Added donation");
 
                            }else {
