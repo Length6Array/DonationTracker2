@@ -62,8 +62,8 @@ public class Donation {
         this.name = name;
     }
 
-    public Location getLocation() {
-        return location;
+    public String getLocation() {
+        return location.getName();
     }
 
     public void setLocation(Location location) {

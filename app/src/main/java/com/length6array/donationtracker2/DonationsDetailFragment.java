@@ -1,15 +1,21 @@
 package com.length6array.donationtracker2;
 
 import android.app.Activity;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.length6array.donationtracker2.dummy.DummyContent;
+import java.util.ArrayList;
+
 
 /**
  * A fragment representing a single Donations detail screen.
@@ -28,6 +34,7 @@ public class DonationsDetailFragment extends Fragment {
      * The dummy content this fragment is presenting.
      */
     private Donation donation;
+    RecyclerView.LayoutManager manager;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -45,11 +52,15 @@ public class DonationsDetailFragment extends Fragment {
             donation = Donation.DONATION_MAP.get(getArguments().getString(ARG_ITEM_ID));
 
             Activity activity = this.getActivity();
+
+
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
                 appBarLayout.setTitle(donation.getName());
             }
+
         }
+
     }
 
     @Override
@@ -57,11 +68,16 @@ public class DonationsDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.donations_detail, container, false);
 
-        // Show the dummy content as text in a TextView.
+        // Show as text in a TextView.
         if (donation != null) {
-            ((TextView) rootView.findViewById(R.id.donations_detail)).setText(donation.getName());
+            ((TextView) rootView.findViewById(R.id.location)).setText(donation.getLocation());
+            ((TextView) rootView.findViewById(R.id.type)).setText(donation.getType());
+            ((TextView) rootView.findViewById(R.id.date)).setText(donation.getDateAdded());
+            ((TextView) rootView.findViewById(R.id.description)).setText(donation.getDescription());
         }
 
         return rootView;
     }
+
+
 }

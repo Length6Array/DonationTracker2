@@ -13,6 +13,11 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -42,7 +47,7 @@ public class DonationActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                startActivity((new Intent(DonationActivity.this, LocationListActivity.class)));
+                startActivity((new Intent(DonationActivity.this, DonationsListActivity.class)));
             }
         });
 
@@ -51,12 +56,15 @@ public class DonationActivity extends AppCompatActivity {
         description = findViewById(R.id.description);
         type = findViewById(R.id.category);
         location = findViewById(R.id.locations);
+        value = findViewById(R.id.value);
+
 
         ArrayAdapter<String> adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, categories);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         type.setAdapter(adapter);
 
 
+        readLocations();
         ArrayList<String> locationName = new ArrayList<>();
         for (int i = 0; i < Location.locations.size(); i++){
             locationName.add(Location.locations.get(i).getName());
@@ -77,14 +85,21 @@ public class DonationActivity extends AppCompatActivity {
                        if (description != null){
                            if (type != null){
 
+
                                Donation newDonation = new Donation();
                                newDonation.setName(name.getText().toString());
                                newDonation.setType(type.getSelectedItem().toString());
                                newDonation.setDescription(description.getText().toString());
+                               newDonation.setValue(Float.valueOf(value.getText().toString()));
                                newDonation.setLocation(Location.ITEM_MAP.get(location.getSelectedItem().toString()));
+                               Log.i("DonationActivity.class",
+                                       newDonation.getName() +  "/n" +
+                                       newDonation.getType() +
+                                       newDonation.getLocation() +
+                                       newDonation.getValue());
 
                                //TODO date, value, image, short description
-                               Donation.donations.add(newDonation);
+                               Donation.setDonations(newDonation);
                                Log.i("DonationActivity.class", "Added donation");
 
                            }else {
@@ -105,11 +120,60 @@ public class DonationActivity extends AppCompatActivity {
 
                 }
 
-                startActivity((new Intent(DonationActivity.this, LocationListActivity.class)));
+                startActivity((new Intent(DonationActivity.this, DonationsListActivity.class)));
             }
         });
 
 
+    }
+    public void readLocations() {
+        InputStream is = getResources().openRawResource(R.raw.locations);
+        BufferedReader reader = new BufferedReader(
+                new InputStreamReader(is, Charset.forName("UTF-8"))
+        );
+
+        String line = "";
+        try {
+            boolean duplicate = false;
+            //this steps over the header!
+            reader.readLine();
+            while ((line = reader.readLine()) != null) {
+                //this splits the data
+                String[] tokens = line.split(",");
+
+                //checking for duplicate
+                Log.i("LocationListActivity", "Location Items size: " + Location.locations.size());
+                for (int i = 0; i < Location.locations.size(); i++) {
+                    if ((Location.locations.get(i).getName().equals(tokens[1]))) {
+                        Log.i("LocationListActivity", "Duplicate: " + tokens[1]);
+                        duplicate = true;
+                    }
+                }
+
+                //if made it this far, means new location
+                if (!duplicate) {
+                    Location newLocation = new Location();
+                    newLocation.setKey(Integer.parseInt(tokens[0]));
+                    newLocation.setName(tokens[1]);
+                    newLocation.setLatitude(Float.parseFloat(tokens[2]));
+                    newLocation.setLongitude(Float.parseFloat(tokens[3]));
+                    newLocation.setAddress(tokens[4]);
+                    newLocation.setCity(tokens[5]);
+                    newLocation.setState(tokens[6]);
+                    newLocation.setZipCode(Integer.parseInt(tokens[7]));
+                    newLocation.setType(tokens[8]);
+                    newLocation.setPhone(tokens[9]);
+                    newLocation.setWebsite(tokens[10]);
+
+                    Location.locations.add(newLocation);
+                    Location.ITEM_MAP.put(newLocation.getName(), newLocation);
+                    Log.i("LocationListActivity", "Just Added: " + newLocation.getName());
+                }
+            }
+        } catch (IOException e) {
+            Log.i("LocationListActivity", "Error reading Location Data");
+            e.printStackTrace();
+        }
     }
 
 }
