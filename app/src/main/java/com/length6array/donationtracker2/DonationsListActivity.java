@@ -75,7 +75,8 @@ public class DonationsListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, Donation.donations, mTwoPane));
+        Location thisLocation = Location.ITEM_MAP.get(location);
+        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, thisLocation.donationItems, mTwoPane));
     }
 
     public static class SimpleItemRecyclerViewAdapter
