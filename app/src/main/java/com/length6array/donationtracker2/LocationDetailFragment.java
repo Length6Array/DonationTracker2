@@ -1,6 +1,7 @@
 package com.length6array.donationtracker2;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -65,26 +66,26 @@ public class LocationDetailFragment extends Fragment {
 
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
-            //((TextView) rootView.findViewById(R.id.location_detail)).setText(mItem.getAddress());
-            //TextView address = new TextView(this.getContext());
-            TextView address = ((TextView) rootView.findViewById(R.id.location_detail));
-            address.setText(mItem.getAddress());
-            TextView city = ((TextView) rootView.findViewById(R.id.city_detail));
-            city.setText(mItem.getCity());
-            TextView state = ((TextView) rootView.findViewById(R.id.state_detail));
-            state.setText(mItem.getState());
-            TextView zipCode = ((TextView) rootView.findViewById(R.id.zipcode_detail));
-            zipCode.setText(Integer.toString(mItem.getZipCode()));
-            TextView latitude = ((TextView) rootView.findViewById(R.id.latitude_detail));
-            latitude.setText(Float.toString(mItem.getLatitude()));
-            TextView longitude = ((TextView) rootView.findViewById(R.id.longitude_detail));
-            longitude.setText(Float.toString(mItem.getLongitude()));
-            TextView phone = ((TextView) rootView.findViewById(R.id.phone_detail));
-            phone.setText(mItem.getPhone());
-            TextView type = ((TextView) rootView.findViewById(R.id.type_detail));
-            type.setText(mItem.getType());
-            TextView website = ((TextView) rootView.findViewById(R.id.website_detail));
-            website.setText(mItem.getWebsite());
+            ((TextView) rootView.findViewById(R.id.location_detail)).setText((mItem.getAddress()));
+            ((TextView) rootView.findViewById(R.id.city_detail)).setText(mItem.getCity());
+            ((TextView) rootView.findViewById(R.id.state_detail)).setText(mItem.getState());
+            ((TextView) rootView.findViewById(R.id.zipcode_detail)).setText(Integer.toString(mItem.getZipCode()));
+            ((TextView) rootView.findViewById(R.id.latitude_detail)).setText(Float.toString(mItem.getLatitude()));
+            ((TextView) rootView.findViewById(R.id.longitude_detail)).setText(Float.toString(mItem.getLongitude()));
+            ((TextView) rootView.findViewById(R.id.phone_detail)).setText(mItem.getPhone());
+            ((TextView) rootView.findViewById(R.id.type_detail)).setText(mItem.getType());
+            ((TextView) rootView.findViewById(R.id.website_detail)).setText(mItem.getWebsite());
+            TextView donations = rootView.findViewById(R.id.donation);
+            String donationItems = "Donations: " + mItem.donationItems.size();
+            donations.setText(donationItems);
+            donations.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getActivity(), DonationsListActivity.class);
+                    intent.putExtra("Location", mItem.getName());
+                    startActivity(intent);
+                }
+            });
         }
 
         return rootView;
