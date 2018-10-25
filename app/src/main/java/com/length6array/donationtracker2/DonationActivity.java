@@ -96,7 +96,9 @@ public class DonationActivity extends AppCompatActivity {
                                newDonation.setLocation(Location.ITEM_MAP.get(location.getSelectedItem().toString()));
                                Donation.setDonations(newDonation);
                                Location.ITEM_MAP.get(newDonation.getLocation()).addDonation(newDonation);
-
+                               Intent intent = new Intent(DonationActivity.this, DonationsListActivity.class);
+                               intent.putExtra("Location", newDonation.getLocation());
+                               startActivity(intent);
                                Log.i("DonationActivity.class", "Added donation");
 
                            }else {
@@ -117,7 +119,6 @@ public class DonationActivity extends AppCompatActivity {
 
                 }
 
-                startActivity((new Intent(DonationActivity.this, DonationsListActivity.class)));
             }
         });
 

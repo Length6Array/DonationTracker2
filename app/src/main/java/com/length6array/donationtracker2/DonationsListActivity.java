@@ -31,6 +31,7 @@ public class DonationsListActivity extends AppCompatActivity {
      * device.
      */
     private boolean mTwoPane;
+    String location;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,17 @@ public class DonationsListActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
+        Bundle extras = getIntent().getExtras();
+        if (extras != null){
+            location = extras.getString("Location");
+        }
+        FloatingActionButton back = findViewById(R.id.DonationGoBack);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(DonationsListActivity.this, LocationListActivity.class));
+            }
+        });
 
         FloatingActionButton addDonation = (FloatingActionButton) findViewById(R.id.addDonation);
         addDonation.setOnClickListener(new View.OnClickListener() {
