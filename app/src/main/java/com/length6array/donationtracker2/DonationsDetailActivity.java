@@ -37,7 +37,7 @@ public class DonationsDetailActivity extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity((new Intent(DonationsDetailActivity.this, DonationsListActivity.class)));
+                startActivity((new Intent(DonationsDetailActivity.this, LocationListActivity.class)));
             }
         });
 
