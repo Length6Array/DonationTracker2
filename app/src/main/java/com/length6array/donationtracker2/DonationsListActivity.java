@@ -9,11 +9,16 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -32,6 +37,9 @@ public class DonationsListActivity extends AppCompatActivity {
      */
     private boolean mTwoPane;
     String location;
+
+    Spinner filter;
+    String category;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +69,19 @@ public class DonationsListActivity extends AppCompatActivity {
             }
         });
 
+        filter = findViewById(R.id.spinnerFilter);
+
+        List<String> categories = Arrays.asList("All", "Clothing", "Hat", "Kitchen", "Electronics", "Household", "Other");
+
+        ArrayAdapter<String> adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, categories);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        filter.setAdapter(adapter);
+
+        category = filter.getSelectedItem().toString();
+
+
+
+
         if (findViewById(R.id.donations_detail_container) != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-w900dp).
@@ -76,7 +97,18 @@ public class DonationsListActivity extends AppCompatActivity {
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         Location thisLocation = Location.ITEM_MAP.get(location);
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, thisLocation.donationItems, mTwoPane));
+        if (category.equals("All")){
+            recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, thisLocation.donationItems, mTwoPane));
+        } else {
+            ArrayList<Donation> sortedDonations = new ArrayList<>();
+            for (int i = 0; i < thisLocation.donationItems.size(); i++) {
+                if (thisLocation.donationItems.get(i).getType().equals(category)) {
+                    sortedDonations.add(thisLocation.donationItems.get(i));
+                }
+            }
+            recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, sortedDonations, mTwoPane));
+        }
+
     }
 
     public static class SimpleItemRecyclerViewAdapter

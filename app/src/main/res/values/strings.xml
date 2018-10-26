@@ -42,5 +42,6 @@
     <string name="donations">Donations</string>
     <string name="title_donations_list">Items</string>
     <string name="title_donations_detail">Donations Detail</string>
+    <string name="filter">Filter</string>
 
 </resources>
