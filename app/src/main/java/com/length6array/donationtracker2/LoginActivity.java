@@ -39,6 +39,11 @@ import java.util.List;
 
 /**
  * A login screen that offers login via email/password.
+ * Go to Registration if you don't understand what's going on here bc
+ * it was created using the same template.
+ * The only real difference is that there is no extra retyping in of the password
+ * and it doesn't create a user, it just checks against existing users.
+ *
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 

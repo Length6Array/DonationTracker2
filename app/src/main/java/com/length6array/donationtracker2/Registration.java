@@ -36,7 +36,15 @@ import java.util.List;
 
 
 /**
- * A login screen that offers login via email/password.
+ * This page is long and crazy!!! Do not worry though!!
+ * (I don't even know what half this stuff is either so you're good!)
+ * This is the Registration screen.
+ * Inside onCreate: text edits and spinners used to gather the persons info to make a new user
+ * When the user clicks emailSignIn button, all that information is checked to make sure
+ *          1. not a repeat account (it would then tell the person to log on not register
+ *          2. all the info is legit (no empty fields, password & retyped password match, etc)
+ * If so, the user is then taken to LocationListActivity
+ *
  */
 public class Registration extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
@@ -59,14 +67,13 @@ public class Registration extends AppCompatActivity implements LoaderCallbacks<C
         setContentView(R.layout.activity_registration);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-
         mPasswordView = (EditText) findViewById(R.id.password);
-//
         reTypePassword = (EditText) findViewById(R.id.reTypePassword);
         reTypePassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_NULL){
+                    //TODO check if this is needed
                     attemptLogin();
                     return true;
                 }
@@ -74,6 +81,8 @@ public class Registration extends AppCompatActivity implements LoaderCallbacks<C
             }
         });
 
+
+        //create account button
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -83,6 +92,8 @@ public class Registration extends AppCompatActivity implements LoaderCallbacks<C
             }
         });
 
+
+        //go back to welcome screen
         FloatingActionButton back = (FloatingActionButton) findViewById(R.id.back);
         back.setOnClickListener(new OnClickListener() {
             @Override
@@ -96,6 +107,7 @@ public class Registration extends AppCompatActivity implements LoaderCallbacks<C
         mProgressView = findViewById(R.id.login_progress);
         userSpinner = findViewById(R.id.personType);
 
+        //this adapter fills in the spinner with the different types of users
         ArrayAdapter<String> adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, LoginActivity.userType);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         userSpinner.setAdapter(adapter);
@@ -153,6 +165,8 @@ public class Registration extends AppCompatActivity implements LoaderCallbacks<C
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
+
+            //makes a new user, then goes to new Activity
             mAuthTask = new UserLoginTask(email, password, userType);
             mAuthTask.execute((Void) null);
             if (mAuthTask.doInBackground()){
@@ -172,6 +186,7 @@ public class Registration extends AppCompatActivity implements LoaderCallbacks<C
 
     /**
      * Shows the progress UI and hides the login form.
+     * I don't really know what this does tbh but I just kept it in bc it looked important
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {
@@ -206,6 +221,13 @@ public class Registration extends AppCompatActivity implements LoaderCallbacks<C
         }
     }
 
+    /**
+     *
+     * I think this has something do do with grabbing contacts from the users phone.
+     * I kept it in, but tbh i think its also unnecessary.
+     *
+     */
+    //TODO check if this is really necessary
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         return new CursorLoader(this,
@@ -263,6 +285,10 @@ public class Registration extends AppCompatActivity implements LoaderCallbacks<C
     /**
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
+     * THIS IS VERY IMPORTANT.
+     * What's going on: using the data the user typed in, I check if the
+     * stuff is already in the system, otherwise, if the code has gotten to
+     * this point it means that all the fields are valid and a new user is created!
      */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
@@ -290,6 +316,7 @@ public class Registration extends AppCompatActivity implements LoaderCallbacks<C
                 mEmailView.setError(getString(R.string.email_Taken));
                 return false;
             } else {
+                //THIS IS THAT KEY IMPORTANT THING
                 Log.i("Registration", "Making new account");
                 LoginActivity.setEmails(mEmail, mPassword, mUserType);
                 return true;

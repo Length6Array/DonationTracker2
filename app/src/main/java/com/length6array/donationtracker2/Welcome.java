@@ -7,6 +7,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+
+/**
+ * Hey!
+ * This is the Welcome screen! Literally the first thing you see when you open the app
+ * It contains two buttons, login and register.
+ */
 public class Welcome extends AppCompatActivity {
 
 
@@ -16,6 +22,7 @@ public class Welcome extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
+        //login button. This takes you to the LoginActivity.
         Button login = (Button) findViewById(R.id.loginButton);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -25,6 +32,8 @@ public class Welcome extends AppCompatActivity {
             }
         });
 
+
+        //register button. This takes you to the Registration Activity.
         Button register = (Button) findViewById(R.id.registerButton);
         register.setOnClickListener(new View.OnClickListener() {
             @Override

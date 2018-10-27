@@ -19,6 +19,9 @@ import android.widget.TextView;
  * This fragment is either contained in a {@link LocationListActivity}
  * in two-pane mode (on tablets) or a {@link LocationDetailActivity}
  * on handsets.
+ *
+ * The only important info you need from this is at the bottom
+ *
  */
 public class LocationDetailFragment extends Fragment {
     /**
@@ -59,12 +62,21 @@ public class LocationDetailFragment extends Fragment {
         }
     }
 
+    /**
+     *
+     * This fills our detail view! It shows a buncha stuff, only thing worth noting
+     * is the thing at the bottom, the textView object Donations:
+     *       this is clickable, and will take you to DonationListActivity
+     *       PLEASE NOTE: it also passes an Intent (will explain in DonationsList)
+     *             that has the name of the location, and the key to grab that name
+     *              (this is important so that we know WHICH location's donations to show)
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.location_detail, container, false);
 
-        // Show the dummy content as text in a TextView.
+        // Show the content as text in a TextView.
         if (mItem != null) {
             ((TextView) rootView.findViewById(R.id.location_detail)).setText((mItem.getAddress()));
             ((TextView) rootView.findViewById(R.id.city_detail)).setText(mItem.getCity());

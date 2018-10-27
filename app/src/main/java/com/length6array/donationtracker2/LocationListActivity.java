@@ -23,12 +23,14 @@ import java.nio.charset.Charset;
 import java.util.List;
 
 /**
- * An activity representing a list of Locations. This activity
- * has different presentations for handset and tablet-size devices. On
- * handsets, the activity presents a list of items, which when touched,
- * lead to a {@link LocationDetailActivity} representing
- * item details. On tablets, the activity presents the list of items and
- * item details side-by-side using two vertical panes.
+ * OKAYYY this is the LocationListActivity!!! Get excited! We're now in the legit app!! WOaH
+ * What's going on:
+ *      A ~recyclerView~ (a layout that allows for scrolling thru a list in a cool and space efficient way-
+ *                          it RECYCLES views! Wow! Wild! so basically it takes the view that went off
+ *                          screen during scrolling and puts it at the bottom with NEW info! How cool!)
+ *           takes all the locations and makes them into a scrolling list.
+ *      When you click on a location, it will take you to the Detail View of that location
+ *
  */
 public class LocationListActivity extends AppCompatActivity {
 
@@ -47,6 +49,8 @@ public class LocationListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
+
+        //TODO this will be used to add new Locations.
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,14 +59,10 @@ public class LocationListActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        Location temp = new Location();
+
         readLocations();
 
         if (findViewById(R.id.location_detail_container) != null) {
-            // The detail container view will be present only in the
-            // large-screen layouts (res/values-w900dp).
-            // If this view is present, then the
-            // activity should be in two-pane mode.
             mTwoPane = true;
         }
 
@@ -85,6 +85,8 @@ public class LocationListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Location item = (Location) view.getTag();
+
+                //this is for like iPads and stuff so you can ignore it
                 if (mTwoPane) {
                     Bundle arguments = new Bundle();
                     arguments.putString(LocationDetailFragment.ARG_ITEM_ID, item.getName());
@@ -93,11 +95,12 @@ public class LocationListActivity extends AppCompatActivity {
                     mParentActivity.getSupportFragmentManager().beginTransaction()
                             .replace(R.id.location_detail_container, fragment)
                             .commit();
+
+                //this is the stuff actually used
                 } else {
                     Context context = view.getContext();
                     Intent intent = new Intent(context, LocationDetailActivity.class);
                     intent.putExtra(LocationDetailFragment.ARG_ITEM_ID, item.getName());
-
                     context.startActivity(intent);
                 }
             }
@@ -111,6 +114,8 @@ public class LocationListActivity extends AppCompatActivity {
             mTwoPane = twoPane;
         }
 
+
+        //okay so I think this and the next few methods are used to help show all the Locations
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
@@ -121,8 +126,6 @@ public class LocationListActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mIdView.setText(mValues.get(position).getName());
-           // holder.mContentView.setText(mValues.get(position).getCity());
-
             holder.itemView.setTag(mValues.get(position));
             holder.itemView.setOnClickListener(mOnClickListener);
         }
@@ -144,6 +147,10 @@ public class LocationListActivity extends AppCompatActivity {
         }
 
     }
+
+    /**
+     * This method reads in all the locations from the csv file found in res.raw
+     */
     public void readLocations() {
         InputStream is = getResources().openRawResource(R.raw.locations);
         BufferedReader reader = new BufferedReader(

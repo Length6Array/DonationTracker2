@@ -1,5 +1,11 @@
 package com.length6array.donationtracker2;
 
+
+/**
+ * This is the Person class.
+ * it has basic details about a person
+ * I don't think I need to explain what's going on here.
+ */
 public class Person {
 
     //private String name;

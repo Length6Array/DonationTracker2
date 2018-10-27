@@ -22,6 +22,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * This is the activity that allows for a user to create a donation item
+ */
 public class DonationActivity extends AppCompatActivity {
 
 
@@ -122,6 +125,7 @@ public class DonationActivity extends AppCompatActivity {
 
 
     }
+
     public void readLocations() {
         InputStream is = getResources().openRawResource(R.raw.locations);
         BufferedReader reader = new BufferedReader(

@@ -22,12 +22,20 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * An activity representing a list of Items. This activity
+ * An activity representing a list of Donations. This activity
  * has different presentations for handset and tablet-size devices. On
  * handsets, the activity presents a list of items, which when touched,
  * lead to a {@link DonationsDetailActivity} representing
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
+ *
+ * Very similar setup to the LocationListActivity, so I won't really explain what's
+ * actually going on.
+ * What IS really important to know are these crazy things called Intents!
+ *      An intent is a way to pass information from one Activity another.
+ *      In this case, we pass the name of a location from LocationDetailActivity (or elsewhere)
+ *      so that then we can grab that location's donations and fill the RecyclerView.
+ *
  */
 public class DonationsListActivity extends AppCompatActivity {
 
@@ -36,6 +44,8 @@ public class DonationsListActivity extends AppCompatActivity {
      * device.
      */
     private boolean mTwoPane;
+
+    //this will be used to grab an intent
     String location;
 
     Spinner filter;
@@ -49,10 +59,16 @@ public class DonationsListActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
+
+        /**
+         *   THIS IS WHERE I GRAB THE LOCATION name of the . I basically tell the program, "hey
+         *   yo lemme get that thing i sent ya earlier" then I go and grab it via a key
+         */
         Bundle extras = getIntent().getExtras();
         if (extras != null){
             location = extras.getString("Location");
         }
+
         FloatingActionButton back = findViewById(R.id.DonationGoBack);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,16 +85,15 @@ public class DonationsListActivity extends AppCompatActivity {
             }
         });
 
+        //setup of spinner for filtering donations
         filter = findViewById(R.id.spinnerFilter);
-
         List<String> categories = Arrays.asList("All", "Clothing", "Hat", "Kitchen", "Electronics", "Household", "Other");
-
         ArrayAdapter<String> adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, categories);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         filter.setAdapter(adapter);
 
         category = filter.getSelectedItem().toString();
-
+        //TODO refresh page to get selected filter
 
 
 
@@ -96,6 +111,14 @@ public class DonationsListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
+
+        /**
+         * What's going on:
+         *        using the intent's data (The location name as a string), we go find that location
+         *        Then, depending on how it's filtered it shows certain donations
+         *        "All" being all donations, otherwise get that specific category of donations
+         */
+
         Location thisLocation = Location.ITEM_MAP.get(location);
         if (category.equals("All")){
             recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, thisLocation.donationItems, mTwoPane));

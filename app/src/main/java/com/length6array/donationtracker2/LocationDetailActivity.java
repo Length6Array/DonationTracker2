@@ -15,6 +15,12 @@ import android.view.MenuItem;
  * activity is only used on narrow width devices. On tablet-size devices,
  * item details are presented side-by-side with a list of items
  * in a {@link LocationListActivity}.
+ *
+ * Heyo okay so like this one is used to contain the LocationDetailFragment.
+ * Has two buttons, add Donation and editLocation
+ * ALSO, you can click on a textEdit called Donations (its in the Fragment)
+ * that will take you to the list of donations for that specific location.
+ *
  */
 public class LocationDetailActivity extends AppCompatActivity {
 
@@ -25,12 +31,12 @@ public class LocationDetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
 
+
+        //TODO make this go to edit location
         FloatingActionButton editLocation = (FloatingActionButton) findViewById(R.id.editLocation);
         editLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
                 startActivity((new Intent(LocationDetailActivity.this, DonationActivity.class)));
             }
         });
@@ -39,8 +45,6 @@ public class LocationDetailActivity extends AppCompatActivity {
         addDonation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
                 startActivity((new Intent(LocationDetailActivity.this, DonationActivity.class)));
             }
         });

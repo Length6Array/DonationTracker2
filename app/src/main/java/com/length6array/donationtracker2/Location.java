@@ -12,16 +12,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class is pretty self-explanatory.
+ * To note however:
+ *     List locations is typically used to propagate a Spinner
+ *     Map ITEM_MAP is used mainly to check or get a location when we have the location's name
+ */
 public class Location {
 
+
     /**
-     * An array of sample (dummy) items.
+     * An array of location objects.
      */
     public static final List<Location> locations = new ArrayList<Location>();
 
 
     /**
-     * A map of sample (dummy) items, by ID.
+     * A map of locations, by name.
      */
     public static final Map<String, Location> ITEM_MAP = new HashMap<String, Location>();
 
