@@ -63,8 +63,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="@string/search_for_donation" />
+        android:hint="@string/search_for_donation"
+        android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/noResultsFoundView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="No result"
+        android:visibility="gone"
+        />
 
     <FrameLayout
         android:id="@+id/frameLayout"

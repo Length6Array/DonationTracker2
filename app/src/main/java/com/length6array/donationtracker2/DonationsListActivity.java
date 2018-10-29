@@ -52,6 +52,7 @@ public class DonationsListActivity extends AppCompatActivity {
     String location;
     Spinner filter;
     Spinner selectLocation;
+    TextView noItems;
     String category= "All";
     String[] options = {"All", "Clothing", "Hat", "Kitchen", "Electronics", "Household", "Other"};
     ArrayList<String> categories = new ArrayList<>();
@@ -110,6 +111,8 @@ public class DonationsListActivity extends AppCompatActivity {
         setupLocationSpinner();
 
         setupFilterSpinner();
+
+        noItems = findViewById(R.id.noResultsFoundView);
 
         if (findViewById(R.id.donations_detail_container) != null) {
             // The detail container view will be present only in the
@@ -206,15 +209,25 @@ public class DonationsListActivity extends AppCompatActivity {
         } else {
             donations =  Location.ITEM_MAP.get(selectedLocation).donationItems;
         }
+        if (donations.size() == 0){
+            noItems.setVisibility(TextView.VISIBLE);
+        } else {
+            noItems.setVisibility(TextView.INVISIBLE);
+        }
         if (categoryID == 0){
             adapter1 = new SimpleItemRecyclerViewAdapter(this, donations, mTwoPane);
-            
         } else {
             ArrayList<Donation> sortedDonations = new ArrayList<>();
             for (int i = 0; i < donations.size(); i++) {
                 if (donations.get(i).getType().equals(selection)) {
                     sortedDonations.add(donations.get(i));
                 }
+                donations = sortedDonations;
+            }
+            if (sortedDonations.size() == 0){
+                noItems.setVisibility(TextView.VISIBLE);
+            } else {
+                noItems.setVisibility(TextView.INVISIBLE);
             }
             adapter1 = new SimpleItemRecyclerViewAdapter(this, sortedDonations, mTwoPane);
         }
