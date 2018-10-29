@@ -21,11 +21,11 @@ import java.util.Map;
 public class Location {
 
 
+    public static List<Donation> allDonations = new ArrayList<>();
     /**
      * An array of location objects.
      */
     public static final List<Location> locations = new ArrayList<Location>();
-
 
     /**
      * A map of locations, by name.
@@ -37,6 +37,7 @@ public class Location {
         locations.add(location);
         ITEM_MAP.put(location.getName(), location);
     }
+
 
 
     private static String makeDetails(int position) {
@@ -151,6 +152,7 @@ public class Location {
 
     public void addDonation(Donation donation) {
         donationItems.add(donation);
+        allDonations.add(donation);
     }
 
 

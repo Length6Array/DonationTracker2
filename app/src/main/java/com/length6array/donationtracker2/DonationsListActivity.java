@@ -13,9 +13,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,9 +50,15 @@ public class DonationsListActivity extends AppCompatActivity {
 
     //this will be used to grab an intent
     String location;
-
     Spinner filter;
-    String category;
+    Spinner selectLocation;
+    String category= "All";
+    String[] options = {"All", "Clothing", "Hat", "Kitchen", "Electronics", "Household", "Other"};
+    ArrayList<String> categories = new ArrayList<>();
+    SimpleItemRecyclerViewAdapter adapter1;
+    int position1 = 0; //spinner position
+    int locationSelection = 0;
+    ArrayList<String> locations = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,17 +94,22 @@ public class DonationsListActivity extends AppCompatActivity {
             }
         });
 
-        //setup of spinner for filtering donations
-        filter = findViewById(R.id.spinnerFilter);
-        List<String> categories = Arrays.asList("All", "Clothing", "Hat", "Kitchen", "Electronics", "Household", "Other");
-        ArrayAdapter<String> adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, categories);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        filter.setAdapter(adapter);
+        for (int i = 0; i < Location.locations.size(); i++){
+            if (i == 0){
+                locations.add(location); //make the default being the current location
+            }else {
+                if (i == 1){
+                    locations.add("All"); //option to view donations from all locations
+                }
+                if (!Location.locations.get(i - 1).getName().equals(location)){
+                    locations.add(Location.locations.get(i - 1).getName());
+                }
+            }
+        }
 
-        category = filter.getSelectedItem().toString();
-        //TODO refresh page to get selected filter
+        setupLocationSpinner();
 
-
+        setupFilterSpinner();
 
         if (findViewById(R.id.donations_detail_container) != null) {
             // The detail container view will be present only in the
@@ -111,27 +125,7 @@ public class DonationsListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-
-        /**
-         * What's going on:
-         *        using the intent's data (The location name as a string), we go find that location
-         *        Then, depending on how it's filtered it shows certain donations
-         *        "All" being all donations, otherwise get that specific category of donations
-         */
-
-        Location thisLocation = Location.ITEM_MAP.get(location);
-        if (category.equals("All")){
-            recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, thisLocation.donationItems, mTwoPane));
-        } else {
-            ArrayList<Donation> sortedDonations = new ArrayList<>();
-            for (int i = 0; i < thisLocation.donationItems.size(); i++) {
-                if (thisLocation.donationItems.get(i).getType().equals(category)) {
-                    sortedDonations.add(thisLocation.donationItems.get(i));
-                }
-            }
-            recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, sortedDonations, mTwoPane));
-        }
-
+        recyclerView.setAdapter(getSelectedCategory(position1, locationSelection));
     }
 
     public static class SimpleItemRecyclerViewAdapter
@@ -180,8 +174,6 @@ public class DonationsListActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mIdView.setText(mValues.get(position).getName());
-           // holder.mContentView.setText(mValues.get(position).content);
-
             holder.itemView.setTag(mValues.get(position));
             holder.itemView.setOnClickListener(mOnClickListener);
         }
@@ -202,4 +194,92 @@ public class DonationsListActivity extends AppCompatActivity {
             }
         }
     }
+
+
+
+    private SimpleItemRecyclerViewAdapter getSelectedCategory(int categoryID, int locationID){
+        String selection = categories.get(categoryID);
+        String selectedLocation = locations.get(locationID);
+        List<Donation> donations;
+        if (locationID == 1){ //"All"
+            donations = Location.allDonations;
+        } else {
+            donations =  Location.ITEM_MAP.get(selectedLocation).donationItems;
+        }
+        if (categoryID == 0){
+            adapter1 = new SimpleItemRecyclerViewAdapter(this, donations, mTwoPane);
+            
+        } else {
+            ArrayList<Donation> sortedDonations = new ArrayList<>();
+            for (int i = 0; i < donations.size(); i++) {
+                if (donations.get(i).getType().equals(selection)) {
+                    sortedDonations.add(donations.get(i));
+                }
+            }
+            adapter1 = new SimpleItemRecyclerViewAdapter(this, sortedDonations, mTwoPane);
+        }
+        return adapter1;
+    }
+
+
+    private void setupFilterSpinner(){
+        categories.add("All");
+        categories.add("Clothing");
+        categories.add("Hat");
+        categories.add("Kitchen");
+        categories.add("Electronics");
+        categories.add("Household");
+        categories.add("Other");
+        filter = findViewById(R.id.spinnerFilter);
+        ArrayAdapter<String> adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, categories);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        filter.setAdapter(adapter);
+        filter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view,
+                                       int position, long id) {
+                if (position >= 0 && position < options.length) {
+                    position1 = position;
+                    View recyclerView = findViewById(R.id.donations_list);
+                    assert recyclerView != null;
+                    setupRecyclerView((RecyclerView) recyclerView);
+                }else {
+                    Toast.makeText(DonationsListActivity.this, "Selected Category DNE", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        } );
+    }
+
+    private void setupLocationSpinner(){
+        selectLocation = findViewById(R.id.spinnerLocation);
+        ArrayAdapter<String> adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, locations);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        selectLocation.setAdapter(adapter);
+        selectLocation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view,
+                                       int position, long id) {
+                if (position >= 0 && position < options.length) {
+                    locationSelection = position;
+                    View recyclerView = findViewById(R.id.donations_list);
+                    assert recyclerView != null;
+                    setupRecyclerView((RecyclerView) recyclerView);
+                }else {
+                    Toast.makeText(DonationsListActivity.this, "Selected Category DNE", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        } );
+
+    }
+
 }
