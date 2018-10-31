@@ -7,15 +7,22 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.app.SearchManager;
+import android.widget.SearchView;
+import android.widget.SearchView.OnQueryTextListener;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,13 +60,19 @@ public class DonationsListActivity extends AppCompatActivity {
     Spinner filter;
     Spinner selectLocation;
     TextView noItems;
-    String category= "All";
+    String category = "All";
     String[] options = {"All", "Clothing", "Hat", "Kitchen", "Electronics", "Household", "Other"};
     ArrayList<String> categories = new ArrayList<>();
     SimpleItemRecyclerViewAdapter adapter1;
     int position1 = 0; //spinner position
-    int locationSelection = 0;
+    int locationSelection = 0; //location spinner selection
     ArrayList<String> locations = new ArrayList<>();
+    ArrayList<Donation> donations = new ArrayList<>();
+    ArrayList<Donation> sorted;
+    String selection = "All";
+    String selectedLocation = "All";
+    SearchView searchView;
+    String search;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +88,7 @@ public class DonationsListActivity extends AppCompatActivity {
          *   yo lemme get that thing i sent ya earlier" then I go and grab it via a key
          */
         Bundle extras = getIntent().getExtras();
-        if (extras != null){
+        if (extras != null) {
             location = extras.getString("Location");
         }
 
@@ -95,14 +108,14 @@ public class DonationsListActivity extends AppCompatActivity {
             }
         });
 
-        for (int i = 0; i < Location.locations.size(); i++){
-            if (i == 0){
+        for (int i = 0; i < Location.locations.size(); i++) {
+            if (i == 0) {
                 locations.add(location); //make the default being the current location
-            }else {
-                if (i == 1){
+            } else {
+                if (i == 1) {
                     locations.add("All"); //option to view donations from all locations
                 }
-                if (!Location.locations.get(i - 1).getName().equals(location)){
+                if (!Location.locations.get(i - 1).getName().equals(location)) {
                     locations.add(Location.locations.get(i - 1).getName());
                 }
             }
@@ -153,7 +166,6 @@ public class DonationsListActivity extends AppCompatActivity {
                     Context context = view.getContext();
                     Intent intent = new Intent(context, DonationsDetailActivity.class);
                     intent.putExtra(DonationsDetailFragment.ARG_ITEM_ID, donation.getName());
-
                     context.startActivity(intent);
                 }
             }
@@ -199,43 +211,17 @@ public class DonationsListActivity extends AppCompatActivity {
     }
 
 
+    private SimpleItemRecyclerViewAdapter getSelectedCategory(int categoryID, int locationID) {
+        selection = categories.get(categoryID); //grabs whatever category the user selected
+        selectedLocation = locations.get(locationID); //grabs the location the user selected
 
-    private SimpleItemRecyclerViewAdapter getSelectedCategory(int categoryID, int locationID){
-        String selection = categories.get(categoryID);
-        String selectedLocation = locations.get(locationID);
-        List<Donation> donations;
-        if (locationID == 1){ //"All"
-            donations = Location.allDonations;
-        } else {
-            donations =  Location.ITEM_MAP.get(selectedLocation).donationItems;
-        }
-        if (donations.size() == 0){
-            noItems.setVisibility(TextView.VISIBLE);
-        } else {
-            noItems.setVisibility(TextView.INVISIBLE);
-        }
-        if (categoryID == 0){
-            adapter1 = new SimpleItemRecyclerViewAdapter(this, donations, mTwoPane);
-        } else {
-            ArrayList<Donation> sortedDonations = new ArrayList<>();
-            for (int i = 0; i < donations.size(); i++) {
-                if (donations.get(i).getType().equals(selection)) {
-                    sortedDonations.add(donations.get(i));
-                }
-                donations = sortedDonations;
-            }
-            if (sortedDonations.size() == 0){
-                noItems.setVisibility(TextView.VISIBLE);
-            } else {
-                noItems.setVisibility(TextView.INVISIBLE);
-            }
-            adapter1 = new SimpleItemRecyclerViewAdapter(this, sortedDonations, mTwoPane);
-        }
+        donations = sort(selectedLocation, selection);
+        adapter1 = new SimpleItemRecyclerViewAdapter(this, donations, mTwoPane);
         return adapter1;
     }
 
 
-    private void setupFilterSpinner(){
+    private void setupFilterSpinner() {
         categories.add("All");
         categories.add("Clothing");
         categories.add("Hat");
@@ -244,7 +230,7 @@ public class DonationsListActivity extends AppCompatActivity {
         categories.add("Household");
         categories.add("Other");
         filter = findViewById(R.id.spinnerFilter);
-        ArrayAdapter<String> adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, categories);
+        ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, categories);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         filter.setAdapter(adapter);
         filter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -256,7 +242,7 @@ public class DonationsListActivity extends AppCompatActivity {
                     View recyclerView = findViewById(R.id.donations_list);
                     assert recyclerView != null;
                     setupRecyclerView((RecyclerView) recyclerView);
-                }else {
+                } else {
                     Toast.makeText(DonationsListActivity.this, "Selected Category DNE", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -265,12 +251,12 @@ public class DonationsListActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        } );
+        });
     }
 
-    private void setupLocationSpinner(){
+    private void setupLocationSpinner() {
         selectLocation = findViewById(R.id.spinnerLocation);
-        ArrayAdapter<String> adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, locations);
+        ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, locations);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         selectLocation.setAdapter(adapter);
         selectLocation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -282,7 +268,7 @@ public class DonationsListActivity extends AppCompatActivity {
                     View recyclerView = findViewById(R.id.donations_list);
                     assert recyclerView != null;
                     setupRecyclerView((RecyclerView) recyclerView);
-                }else {
+                } else {
                     Toast.makeText(DonationsListActivity.this, "Selected Category DNE", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -291,8 +277,98 @@ public class DonationsListActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        } );
+        });
 
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.search_menu, menu);
+        MenuItem item = menu.findItem(R.id.search_bar);
+        searchView = (SearchView) item.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                search = newText.toLowerCase();
+                View recyclerView = findViewById(R.id.donations_list);
+                assert recyclerView != null;
+                setupRecyclerView((RecyclerView) recyclerView);
+                return false;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    private ArrayList<Donation> sort( String selectedLocation, String selectedType) {
+        ArrayList<Donation> sort = new ArrayList<>();
+        Log.i("SelectedLocation", selectedLocation);
+        if (selectedLocation.equals("All")) {
+            sort = Location.allDonations;
+        } else {
+            for (int i = 0; i < Location.allDonations.size(); i++) {
+                if (Location.allDonations.get(i).getLocation().equals(selectedLocation)) {
+                    sort.add(Location.allDonations.get(i));
+                    Log.i("sortLocations", "added " + Location.allDonations.get(i).getName());
+                }
+            }
+        }
+        return sortDonations(sort, selectedType);
+    }
+
+    private ArrayList<Donation> sortDonations(ArrayList<Donation> donations, String selectedCategory) {
+        ArrayList<Donation> sorted = new ArrayList<>();
+        if (selectedCategory.equals("All")) {
+            sorted = donations;
+        } else {
+            for (int i = 0; i < donations.size(); i++) {
+                if (donations.get(i).getType().equals(selectedCategory)) {
+                    sorted.add(donations.get(i));
+                    Log.i("sortDonations", "added " + donations.get(i).getName());
+                }
+            }
+        }
+        return search(sorted, search);
+    }
+
+    private ArrayList<Donation> search(ArrayList<Donation> donation, String search){
+        if (search == null || search.length() == 0){
+            Log.i("Search", "search is empty or null");
+            if (donation.size() == 0) { //say "no items matching search"
+                noItems.setVisibility(TextView.VISIBLE);
+            } else {
+                noItems.setVisibility(TextView.INVISIBLE);
+            }
+            return donation;
+        } else {
+            ArrayList<Donation> sorted = new ArrayList<>();
+            Log.i("Search", search);
+            for (int i = 0; i < donation.size(); i++){
+                Log.i("Method search", donation.get(i).getName());
+            }
+            for (int i = 0; i < donation.size(); i++) {
+                if (donation.get(i).getName().toLowerCase().contains(search)) {
+                    sorted.add(donation.get(i));
+                    Log.i("Method Search Added ", donation.get(i).getName());
+                }
+            }
+            if (sorted.size() == 0) { //say "no items matching search"
+                noItems.setVisibility(TextView.VISIBLE);
+            } else {
+                noItems.setVisibility(TextView.INVISIBLE);
+            }
+            return sorted;
+        }
+    }
+
 }
+
+

@@ -21,11 +21,11 @@ import java.util.Map;
 public class Location {
 
 
-    public static List<Donation> allDonations = new ArrayList<>();
+    public static ArrayList<Donation> allDonations = new ArrayList<>();
     /**
      * An array of location objects.
      */
-    public static final List<Location> locations = new ArrayList<Location>();
+    public static final ArrayList<Location> locations = new ArrayList<Location>();
 
     /**
      * A map of locations, by name.
@@ -60,7 +60,7 @@ public class Location {
     private String type;
     private String phone;
     private String website;
-    public List<Donation> donationItems = new ArrayList<>();
+    public ArrayList<Donation> donationItems = new ArrayList<>();
 
     public int getKey() {
         return key;
