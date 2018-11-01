@@ -70,6 +70,7 @@ public class DonationActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         type.setAdapter(adapter);
 
+        //initializes dbHandler
         dbHandler = new myDBHandler(this,  null, null, 1);
 
         readLocations();
@@ -84,7 +85,7 @@ public class DonationActivity extends AppCompatActivity {
 
         FloatingActionButton add = findViewById(R.id.add);
 
-        //adds a donation
+        //adds a donation using database
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,18 +103,20 @@ public class DonationActivity extends AppCompatActivity {
                                newDonation.setValue(value.getText().toString());
                                newDonation.setLocation(Location.ITEM_MAP.get(location.getSelectedItem().toString()));
 
+
+                               //if successful, will say "Donation Added"
                                if(dbHandler.addDonation(newDonation)){
                                    Toast.makeText(DonationActivity.this, "Donation Added", Toast.LENGTH_SHORT).show();
-//
+
                                } else {
                                    Toast.makeText(DonationActivity.this, "Donation Not Added", Toast.LENGTH_SHORT).show();
                                }
 
-                               //Log.i("DATABASE", dbHandler.databaseToString());
 
-                               //old way
+                               //old way. this can prob be deleted
                                Donation.setDonations(newDonation);
                                Location.ITEM_MAP.get(newDonation.getLocation()).addDonation(newDonation);
+
                                Intent intent = new Intent(DonationActivity.this, DonationsListActivity.class);
                                intent.putExtra("Location", newDonation.getLocation());
                                startActivity(intent);

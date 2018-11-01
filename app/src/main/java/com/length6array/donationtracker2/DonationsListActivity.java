@@ -120,7 +120,7 @@ public class DonationsListActivity extends AppCompatActivity {
 
 
 
-        //no longer the database stuff, this is just making a new locations string to include "all"
+        //this is just making a new locations string to include "all"
         for (int i = 0; i < Location.locations.size(); i++) {
             if (i == 0) {
                 locations.add(location); //make the default being the current location
@@ -323,12 +323,29 @@ public class DonationsListActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+
+    /**
+     * This is the lengthy way of filtering through the donations
+     * uses all 3 classes: sort, sortDonations, and search.
+     * Sort: handles location sorting
+     * sortDonations: handles sorting by donation category
+     * search: handles search bar sorting
+     *
+     * I decided to make the sort method call the other two on return
+     * just so that if any of the params are changed, it will go through and check
+     * everything.
+     *
+     * @param selectedLocation      the location specified by the user with spinner
+     * @param selectedType          the donation type specified by the user with spinner
+     * @return
+     */
     private ArrayList<Donation> sort( String selectedLocation, String selectedType) {
         ArrayList<Donation> sort = new ArrayList<>();
         Log.i("SelectedLocation", selectedLocation);
-        if (selectedLocation.equals("All")) {
+        if (selectedLocation.equals("All")) { //all locations
             sort = Donation.donations;
-        } else {
+
+        } else { //else find specific location & add those donations
             for (int i = 0; i < Donation.donations.size(); i++) {
                 if (Donation.donations.get(i).getLocation().equals(selectedLocation)) {
                     sort.add(Donation.donations.get(i));
@@ -355,6 +372,10 @@ public class DonationsListActivity extends AppCompatActivity {
     }
 
     private ArrayList<Donation> search(ArrayList<Donation> donation, String search){
+
+        //basically for if the user backspaces all the way so that there's no characters
+        //will just return the donations as have been sorted up to this point
+        //if by filtering it causes no results, this is shown to the user
         if (search == null || search.length() == 0){
             Log.i("Search", "search is empty or null");
             if (donation.size() == 0) { //say "no items matching search"
@@ -386,12 +407,24 @@ public class DonationsListActivity extends AppCompatActivity {
 
     /**
      * This method pulls from the database and puts all the donations in the
-     * Donation class Arraylist and Map to be used
+     * Donation class's Arraylist: donations and Map: DONATION_MAP to be used
+     * while the app is running
+     *
+     * Tip: Just put the values that you get into the maps and lists that
+     * have already been defined so that you don't have to change
+     * anything else in the program. Idk why but I was really dumb and originally
+     * created like an arraylist "databaseDonations" and decided to use
+     * that but it was more of a hassle bc other classes reference
+     * those maps and arraylists defined in Location, Donation, and Person
+     * so it would cause compile errors bc those would be null
+     * and only "databaseDonations", which was local to this class,
+     * only had the data. Pls don't be dumb like me.
      */
     private void loadDonationsFromDatabase() {
         Cursor cursor = myDBHandler.getAllDonations();
 
-        if (cursor.moveToFirst()) {
+
+        if (cursor.moveToFirst()) { //if there/s a line to be read
             do {
               Donation d =  new Donation();
                d.setName(cursor.getString(1));
@@ -400,11 +433,13 @@ public class DonationsListActivity extends AppCompatActivity {
                d.setType(cursor.getString(4));
                d.setDescription( cursor.getString(5));
 
-//               Log.i("Test", " " + cursor.getString(6));
+
+               //THIS WILL CAUSE AN ERROR IF UNCOMMENTED. STILL NEED TO FIGURE OUT WHY.
               // d.setValue(cursor.getFloat(6));
+
                Donation.donations.add(d); //putting into an arraylist to be used now
                Donation.DONATION_MAP.put(d.getName(), d); //into a map to be used for other activities
-            } while (cursor.moveToNext());
+            } while (cursor.moveToNext());//this line basically just says "do while there's lines to read
         }
     }
 

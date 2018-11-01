@@ -8,6 +8,25 @@ import android.content.Context;
 import android.content.ContentValues;
 import android.media.Image;
 
+
+/**
+ * Hey! This is the database, its actually not that complicated really its just a table of values
+ * that correspond to attributes of the Donation class.
+ * Hopefully my comments will help you figure out what's going on, otherwise here are the two
+ * resources I used to get this thing working
+ *
+ *
+ * https://www.simplifiedcoding.net/sqliteopenhelper-tutorial/#Creating-the-Employee
+ * //this was more helpful in learning how to grab the information stored in the database and
+ * put it into an arraylist
+ *
+ * https://www.youtube.com/watch?v=bTWJ8d1hbvw&index=53&list=PL6gx4Cwl9DGBsvRxJJOzG4r4k_zLKrnxl
+ * This is the last in a series of short youtube videos I watched in order to set this up
+ *
+ * Go to DonationActivity to see how I put donations in
+ * Go to DonationListActivity to see how I pull these values out
+ *
+ */
 public class myDBHandler extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
@@ -24,6 +43,13 @@ public class myDBHandler extends SQLiteOpenHelper {
     public myDBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
     }
+
+    /**
+     * This makes the database
+     * PLEASE PLEASE PLEASE NOTE THE SPACING OF THINGS. LIKE HOW " TEXT , " IS WRITTEN LIKE
+     * THAT AS OPPOSED TO "TEXT,". SQL IS WEIRD AND THIS WILL CAUSE ERRORS IF YOU DON'T PUT SPACING
+     * (pretty sure it's bc its using whitespace as a delimitter so it needs those spaces.
+     */
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -45,7 +71,12 @@ public class myDBHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    //add a new row to the database
+    /**
+     *add a new row to the database (a new donation)
+     *I changed this from the youtube example to the website one that has a return of
+     *boolean just so I'd know if it worked when I added to the table
+     */
+
     public boolean addDonation(Donation donation){
         ContentValues values = new ContentValues();
         values.put(COLUMN_NAME, donation.getName()); //1
@@ -67,10 +98,16 @@ public class myDBHandler extends SQLiteOpenHelper {
 
     }
 
+    /**
+     * I got some errors using this in other classes, I have to go back in later and figure out
+     * what's going on but if you wanna check what's happening I've been using
+     * Log.i("CLASS_NAME DATABASE", cursor.getString(COL #) + "" ) and that works too
+     */
+
     public String databaseToString(){
         String dbString = "";
         SQLiteDatabase db = getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_DONATIONS + " WHERE 1";
+        String query = "SELECT * FROM " + TABLE_DONATIONS + " WHERE 1 ";
 
         //cursor point to a location in results
         Cursor c = db.rawQuery(query, null);
