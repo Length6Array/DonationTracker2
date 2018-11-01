@@ -44,14 +44,27 @@ public class Donation {
     private String description; //this is long description, need short one
     private Image image;
 
-    public Donation (String name, Location location, Float value, String date){
+    public Donation(String name, Location location, Float value, String date, String description) {
         this.name = name;
         this.location = location;
         this.value = value;
         dateAdded = date;
+        this.description = description;
 
     }
-    public Donation(){};
+
+    public Donation(String name, String location, Float value, String date, String description) {
+        for (int i = 0; i < Location.allDonations.size(); i++) {
+            if (location.equals(Location.locations.get(i).getName())) {
+                Donation d = new Donation(name, Location.locations.get(i), value, date, description);
+            }
+        }
+    }
+
+    public Donation() {
+    }
+
+    ;
 
 
     public String getName() {
@@ -65,6 +78,15 @@ public class Donation {
     public String getLocation() {
         return location.getName();
     }
+
+    public void setLocation(String location) {
+        for (int i = 0; i < Location.locations.size(); i++){
+            if (location.equals(Location.locations.get(i).getName())){
+                this.location = Location.locations.get(i);
+            }
+        }
+    }
+
 
     public void setLocation(Location location) {
         this.location = location;

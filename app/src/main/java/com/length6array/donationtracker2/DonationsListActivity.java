@@ -2,6 +2,11 @@ package com.length6array.donationtracker2;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.database.Cursor;
+import android.content.Context;
+import android.content.ContentValues;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -68,11 +73,13 @@ public class DonationsListActivity extends AppCompatActivity {
     int locationSelection = 0; //location spinner selection
     ArrayList<String> locations = new ArrayList<>();
     ArrayList<Donation> donations = new ArrayList<>();
-    ArrayList<Donation> sorted;
     String selection = "All";
     String selectedLocation = "All";
     SearchView searchView;
     String search;
+    myDBHandler myDBHandler;
+    ArrayList<Donation> databaseDonations = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +92,7 @@ public class DonationsListActivity extends AppCompatActivity {
 
         /**
          *   THIS IS WHERE I GRAB THE LOCATION name of the . I basically tell the program, "hey
-         *   yo lemme get that thing i sent ya earlier" then I go and grab it via a key
+         *    lemme get that thing i sent ya earlier" then I go and grab it via a key
          */
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -108,6 +115,16 @@ public class DonationsListActivity extends AppCompatActivity {
             }
         });
 
+        //THIS IS THE DATABASE STUFF!!!!!
+        myDBHandler = new myDBHandler(this, null, null, 1);
+        databaseDonations = loadDonationsFromDatabase();
+        for (int i = 0; i < databaseDonations.size(); i++){
+            Log.i("DATABASE TEST: " , databaseDonations.get(i).getName() + " ");
+            Log.i("DATABASE TEST: " , databaseDonations.get(i).getLocation() + " ");
+        }
+
+
+        //no longer the database stuff, this is just making a new locations string to include "all"
         for (int i = 0; i < Location.locations.size(); i++) {
             if (i == 0) {
                 locations.add(location); //make the default being the current location
@@ -221,6 +238,7 @@ public class DonationsListActivity extends AppCompatActivity {
     }
 
 
+    //sets up the different categories spinner
     private void setupFilterSpinner() {
         categories.add("All");
         categories.add("Clothing");
@@ -254,6 +272,7 @@ public class DonationsListActivity extends AppCompatActivity {
         });
     }
 
+    //sets up categories for location spinner
     private void setupLocationSpinner() {
         selectLocation = findViewById(R.id.spinnerLocation);
         ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, locations);
@@ -312,12 +331,12 @@ public class DonationsListActivity extends AppCompatActivity {
         ArrayList<Donation> sort = new ArrayList<>();
         Log.i("SelectedLocation", selectedLocation);
         if (selectedLocation.equals("All")) {
-            sort = Location.allDonations;
+            sort = databaseDonations;
         } else {
-            for (int i = 0; i < Location.allDonations.size(); i++) {
-                if (Location.allDonations.get(i).getLocation().equals(selectedLocation)) {
-                    sort.add(Location.allDonations.get(i));
-                    Log.i("sortLocations", "added " + Location.allDonations.get(i).getName());
+            for (int i = 0; i < databaseDonations.size(); i++) {
+                if (databaseDonations.get(i).getLocation().equals(selectedLocation)) {
+                    sort.add(databaseDonations.get(i));
+                    Log.i("sortLocations", "added " + databaseDonations.get(i).getName());
                 }
             }
         }
@@ -369,6 +388,30 @@ public class DonationsListActivity extends AppCompatActivity {
         }
     }
 
+    private ArrayList<Donation> loadDonationsFromDatabase() {
+        ArrayList<Donation> donations = new ArrayList<>();
+        Cursor cursor = myDBHandler.getAllDonations();
+
+        if (cursor.moveToFirst()) {
+            do {
+
+//                Log.i("TEST:" ,"COL 1: " + cursor.getString(1));
+//                Log.i("TEST:" ,"COL 2: " + cursor.getString(2));
+//                Log.i("TEST:" ,"COL 3: " + cursor.getFloat(3));
+//                Log.i("TEST:" ,"COL 4: " + cursor.getString(4));
+//                Log.i("TEST:" ,"COL 5: " + cursor.getString(5));
+              Donation d =  new Donation();
+               d.setName(cursor.getString(1));
+               d.setLocation(cursor.getString(2));
+               d.setDateAdded( cursor.getString(3));
+               d.setType(cursor.getString(4));
+               d.setDescription( cursor.getString(5));
+               donations.add(d);
+            } while (cursor.moveToNext());
+        }
+        return donations;
+    }
 }
+
 
 

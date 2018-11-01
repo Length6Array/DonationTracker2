@@ -1,6 +1,8 @@
 package com.length6array.donationtracker2;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -36,6 +39,7 @@ public class DonationActivity extends AppCompatActivity {
     private EditText description;
     private Spinner type;
     private Spinner location;
+    myDBHandler dbHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +70,7 @@ public class DonationActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         type.setAdapter(adapter);
 
+        dbHandler = new myDBHandler(this,  null, null, 1);
 
         readLocations();
         ArrayList<String> locationName = new ArrayList<>();
@@ -88,6 +93,7 @@ public class DonationActivity extends AppCompatActivity {
                        if (description != null){
                            if (type != null){
 
+
                                Donation newDonation = new Donation();
                                newDonation.setName(name.getText().toString());
                                newDonation.setType(type.getSelectedItem().toString());
@@ -95,6 +101,26 @@ public class DonationActivity extends AppCompatActivity {
                                newDonation.setDescription(description.getText().toString());
                                newDonation.setValue(Float.valueOf(value.getText().toString()));
                                newDonation.setLocation(Location.ITEM_MAP.get(location.getSelectedItem().toString()));
+
+                               if(dbHandler.addDonation(newDonation)){
+                                   Toast.makeText(DonationActivity.this, "Donation Added", Toast.LENGTH_SHORT).show();
+//                                   Cursor cursor = dbHandler.getAllDonations();
+//                                   if (cursor.moveToFirst()) {
+//                                       do {
+////                                           Log.i("DATATEST ADD DONATION", cursor.getInt(0) + " ");
+////                                           Log.i("DATATEST ADD DONATION", cursor.getString(1) + " ");
+////                                           Log.i("DATATEST ADD DONATION", cursor.getString(2) + " ");
+////                                           Log.i("DATATEST ADD DONATION", cursor.getString(3) + " ");
+////                                           Log.i("DATATEST ADD DONATION", cursor.getDouble(4) + " ");
+//                                       } while (cursor.moveToNext());
+//                                   }
+                               } else {
+                                   Toast.makeText(DonationActivity.this, "Donation Not Added", Toast.LENGTH_SHORT).show();
+                               }
+
+                               //Log.i("DATABASE", dbHandler.databaseToString());
+
+                               //old way
                                Donation.setDonations(newDonation);
                                Location.ITEM_MAP.get(newDonation.getLocation()).addDonation(newDonation);
                                Intent intent = new Intent(DonationActivity.this, DonationsListActivity.class);
