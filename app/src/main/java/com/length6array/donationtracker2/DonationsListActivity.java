@@ -90,7 +90,7 @@ public class DonationsListActivity extends AppCompatActivity {
         toolbar.setTitle(getTitle());
 
         /**
-         *   THIS IS WHERE I GRAB THE LOCATION name of the . I basically tell the program, "hey
+         *   THIS IS WHERE I GRAB THE LOCATION name. I basically tell the program, "hey
          *    lemme get that thing i sent ya earlier" then I go and grab it via a key
          */
         Bundle extras = getIntent().getExtras();
