@@ -14,7 +14,7 @@ public class Donation {
 
      */
 
-    public static List<Donation> donations = new ArrayList<>();
+    public static ArrayList<Donation> donations = new ArrayList<>();
 
     public static final Map<String, Donation> DONATION_MAP = new HashMap<>();
 
@@ -39,12 +39,12 @@ public class Donation {
     private String name;
     private Location location;
     private String dateAdded;
-    private Float value;
+    private String value;
     private String type;  //probably needs to be changed to enum type
     private String description; //this is long description, need short one
     private Image image;
 
-    public Donation(String name, Location location, Float value, String date, String description) {
+    public Donation(String name, Location location, String value, String date, String description) {
         this.name = name;
         this.location = location;
         this.value = value;
@@ -53,7 +53,7 @@ public class Donation {
 
     }
 
-    public Donation(String name, String location, Float value, String date, String description) {
+    public Donation(String name, String location, String value, String date, String description) {
         for (int i = 0; i < Location.allDonations.size(); i++) {
             if (location.equals(Location.locations.get(i).getName())) {
                 Donation d = new Donation(name, Location.locations.get(i), value, date, description);
@@ -100,11 +100,11 @@ public class Donation {
         this.dateAdded = dateAdded;
     }
 
-    public Float getValue() {
+    public String getValue() {
         return value;
     }
 
-    public void setValue(Float value) {
+    public void setValue(String value) {
         this.value = value;
     }
 

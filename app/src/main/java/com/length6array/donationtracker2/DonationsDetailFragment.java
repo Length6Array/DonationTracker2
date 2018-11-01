@@ -36,7 +36,6 @@ public class DonationsDetailFragment extends Fragment {
      * The dummy content this fragment is presenting.
      */
     private Donation donation;
-    RecyclerView.LayoutManager manager;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -50,6 +49,7 @@ public class DonationsDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
+
 
             donation = Donation.DONATION_MAP.get(getArguments().getString(ARG_ITEM_ID));
 

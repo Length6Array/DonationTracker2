@@ -19,6 +19,7 @@ public class myDBHandler extends SQLiteOpenHelper {
     public static final String COLUMN_DATE = "_date";
     public static final String COLUMN_TYPE = "_type";
     public static final String COLUMN_DESCRIPTION = "_description";
+    public static final String COLUMN_VALUE = "_value";
 
     public myDBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
@@ -30,9 +31,10 @@ public class myDBHandler extends SQLiteOpenHelper {
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_NAME + " TEXT ," +
                 COLUMN_LOCATION + " TEXT , " +
-                COLUMN_DATE + " FLOAT ," +
+                COLUMN_DATE + " TEXT ," +
                 COLUMN_TYPE + " TEXT ," +
-                COLUMN_DESCRIPTION + " TEXT " +
+                COLUMN_DESCRIPTION + " TEXT ," +
+                COLUMN_VALUE + " TEXT " +
                 ") ;";
         db.execSQL(query);
     }
@@ -46,11 +48,12 @@ public class myDBHandler extends SQLiteOpenHelper {
     //add a new row to the database
     public boolean addDonation(Donation donation){
         ContentValues values = new ContentValues();
-        values.put(COLUMN_NAME, donation.getName());
-        values.put(COLUMN_LOCATION, donation.getLocation());
-        values.put(COLUMN_DATE, donation.getDateAdded());
-        values.put(COLUMN_TYPE, donation.getType());
-        values.put(COLUMN_DESCRIPTION, donation.getDescription());
+        values.put(COLUMN_NAME, donation.getName()); //1
+        values.put(COLUMN_LOCATION, donation.getLocation()); //2
+        values.put(COLUMN_DATE, donation.getDateAdded()); //3
+        values.put(COLUMN_TYPE, donation.getType()); //4
+        values.put(COLUMN_DESCRIPTION, donation.getDescription()); //5
+        values.put(COLUMN_VALUE, donation.getValue()); //6
         SQLiteDatabase db = getWritableDatabase();
         //true if accurately added to table
        return  (db.insert(TABLE_DONATIONS, null, values) != -1);

@@ -99,21 +99,12 @@ public class DonationActivity extends AppCompatActivity {
                                newDonation.setType(type.getSelectedItem().toString());
                                newDonation.setDateAdded(date.getText().toString());
                                newDonation.setDescription(description.getText().toString());
-                               newDonation.setValue(Float.valueOf(value.getText().toString()));
+                               newDonation.setValue(value.getText().toString());
                                newDonation.setLocation(Location.ITEM_MAP.get(location.getSelectedItem().toString()));
 
                                if(dbHandler.addDonation(newDonation)){
                                    Toast.makeText(DonationActivity.this, "Donation Added", Toast.LENGTH_SHORT).show();
-//                                   Cursor cursor = dbHandler.getAllDonations();
-//                                   if (cursor.moveToFirst()) {
-//                                       do {
-////                                           Log.i("DATATEST ADD DONATION", cursor.getInt(0) + " ");
-////                                           Log.i("DATATEST ADD DONATION", cursor.getString(1) + " ");
-////                                           Log.i("DATATEST ADD DONATION", cursor.getString(2) + " ");
-////                                           Log.i("DATATEST ADD DONATION", cursor.getString(3) + " ");
-////                                           Log.i("DATATEST ADD DONATION", cursor.getDouble(4) + " ");
-//                                       } while (cursor.moveToNext());
-//                                   }
+//
                                } else {
                                    Toast.makeText(DonationActivity.this, "Donation Not Added", Toast.LENGTH_SHORT).show();
                                }

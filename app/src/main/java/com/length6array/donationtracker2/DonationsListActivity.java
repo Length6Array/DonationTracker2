@@ -2,21 +2,14 @@ package com.length6array.donationtracker2;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.database.Cursor;
-import android.content.Context;
-import android.content.ContentValues;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.app.SearchManager;
 import android.widget.SearchView;
-import android.widget.SearchView.OnQueryTextListener;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,17 +17,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * An activity representing a list of Donations. This activity
@@ -69,6 +62,10 @@ public class DonationsListActivity extends AppCompatActivity {
     String[] options = {"All", "Clothing", "Hat", "Kitchen", "Electronics", "Household", "Other"};
     ArrayList<String> categories = new ArrayList<>();
     SimpleItemRecyclerViewAdapter adapter1;
+
+
+
+    //used for filtering
     int position1 = 0; //spinner position
     int locationSelection = 0; //location spinner selection
     ArrayList<String> locations = new ArrayList<>();
@@ -77,8 +74,10 @@ public class DonationsListActivity extends AppCompatActivity {
     String selectedLocation = "All";
     SearchView searchView;
     String search;
+
+
+    //the database stuff!!!
     myDBHandler myDBHandler;
-    ArrayList<Donation> databaseDonations = new ArrayList<>();
 
 
     @Override
@@ -117,11 +116,8 @@ public class DonationsListActivity extends AppCompatActivity {
 
         //THIS IS THE DATABASE STUFF!!!!!
         myDBHandler = new myDBHandler(this, null, null, 1);
-        databaseDonations = loadDonationsFromDatabase();
-        for (int i = 0; i < databaseDonations.size(); i++){
-            Log.i("DATABASE TEST: " , databaseDonations.get(i).getName() + " ");
-            Log.i("DATABASE TEST: " , databaseDonations.get(i).getLocation() + " ");
-        }
+        loadDonationsFromDatabase();
+
 
 
         //no longer the database stuff, this is just making a new locations string to include "all"
@@ -331,12 +327,12 @@ public class DonationsListActivity extends AppCompatActivity {
         ArrayList<Donation> sort = new ArrayList<>();
         Log.i("SelectedLocation", selectedLocation);
         if (selectedLocation.equals("All")) {
-            sort = databaseDonations;
+            sort = Donation.donations;
         } else {
-            for (int i = 0; i < databaseDonations.size(); i++) {
-                if (databaseDonations.get(i).getLocation().equals(selectedLocation)) {
-                    sort.add(databaseDonations.get(i));
-                    Log.i("sortLocations", "added " + databaseDonations.get(i).getName());
+            for (int i = 0; i < Donation.donations.size(); i++) {
+                if (Donation.donations.get(i).getLocation().equals(selectedLocation)) {
+                    sort.add(Donation.donations.get(i));
+                    Log.i("sortLocations", "added " + Donation.donations.get(i).getName());
                 }
             }
         }
@@ -388,29 +384,30 @@ public class DonationsListActivity extends AppCompatActivity {
         }
     }
 
-    private ArrayList<Donation> loadDonationsFromDatabase() {
-        ArrayList<Donation> donations = new ArrayList<>();
+    /**
+     * This method pulls from the database and puts all the donations in the
+     * Donation class Arraylist and Map to be used
+     */
+    private void loadDonationsFromDatabase() {
         Cursor cursor = myDBHandler.getAllDonations();
 
         if (cursor.moveToFirst()) {
             do {
-
-//                Log.i("TEST:" ,"COL 1: " + cursor.getString(1));
-//                Log.i("TEST:" ,"COL 2: " + cursor.getString(2));
-//                Log.i("TEST:" ,"COL 3: " + cursor.getFloat(3));
-//                Log.i("TEST:" ,"COL 4: " + cursor.getString(4));
-//                Log.i("TEST:" ,"COL 5: " + cursor.getString(5));
               Donation d =  new Donation();
                d.setName(cursor.getString(1));
                d.setLocation(cursor.getString(2));
                d.setDateAdded( cursor.getString(3));
                d.setType(cursor.getString(4));
                d.setDescription( cursor.getString(5));
-               donations.add(d);
+
+//               Log.i("Test", " " + cursor.getString(6));
+              // d.setValue(cursor.getFloat(6));
+               Donation.donations.add(d); //putting into an arraylist to be used now
+               Donation.DONATION_MAP.put(d.getName(), d); //into a map to be used for other activities
             } while (cursor.moveToNext());
         }
-        return donations;
     }
+
 }
 
 
