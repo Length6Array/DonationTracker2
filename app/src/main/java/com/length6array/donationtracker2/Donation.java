@@ -79,6 +79,14 @@ public class Donation {
         return location.getName();
     }
 
+
+    /**
+     * This is where im worried an error may come in, as when I'm making Donations in the
+     * Location list Activity I call this method. If Location.locations has not been populated
+     * before this happens there will be a null error. Just make sure to load Location data before
+     * Donation data!
+     * @param location
+     */
     public void setLocation(String location) {
         for (int i = 0; i < Location.locations.size(); i++){
             if (location.equals(Location.locations.get(i).getName())){

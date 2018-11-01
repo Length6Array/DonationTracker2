@@ -26,6 +26,8 @@ import android.media.Image;
  * Go to DonationActivity to see how I put donations in
  * Go to DonationListActivity to see how I pull these values out
  *
+ * Side Note: there will most likely be an error after you make Location database, go to
+ * Donation class to setLocation() and I'll explain what's up and how to fix it
  */
 public class myDBHandler extends SQLiteOpenHelper {
 
