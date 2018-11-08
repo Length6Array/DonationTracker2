@@ -79,7 +79,6 @@ public class DonationsListActivity extends AppCompatActivity {
     //the database stuff!!!
     myDBHandler myDBHandler;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,7 +115,7 @@ public class DonationsListActivity extends AppCompatActivity {
 
         //THIS IS THE DATABASE STUFF!!!!!
         myDBHandler = new myDBHandler(this, null, null, 1);
-        updateDonations();
+        getUpdatedDatabase();
 
 
         //this is just making a new locations string to include "all"
@@ -404,12 +403,59 @@ public class DonationsListActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * This method pulls from the database and puts all the donations in the
+     * Donation class's Arraylist: donations and Map: DONATION_MAP to be used
+     * while the app is running
+     *
+     * Tip: Just put the values that you get into the maps and lists that
+     * have already been defined so that you don't have to change
+     * anything else in the program. Idk why but I was really dumb and originally
+     * created like an arraylist "databaseDonations" and decided to use
+     * that but it was more of a hassle bc other classes reference
+     * those maps and arraylists defined in Location, Donation, and Person
+     * so it would cause compile errors bc those would be null
+     * and only "databaseDonations", which was local to this class,
+     * only had the data. Pls don't be dumb like me.
+     //     */
 
-    private void updateDonations() {
-        boolean newDonation = true;
-        for (int i = 0; i < myDBHandler.getAllDonations().getCount(); i++){
-            //if ()
+
+    public void getUpdatedDatabase(){
+        Cursor cursor = myDBHandler.getAllDonations();
+        Log.i("DonationListActivity", "In getUpdatedDatabase");
+        Log.i("DonationsListActivity", "Count = "  + myDBHandler.getAllDonations().getCount());
+        Log.i("DonationListActivity", "Donation.size = " + Donation.donations.size() + " ");
+
+        if (cursor.moveToFirst()) { //if there/s a line to be read
+            do {
+                Donation d =  new Donation();
+                d.setName(cursor.getString(1));
+                d.setLocation(cursor.getString(2));
+                d.setDateAdded( cursor.getString(3));
+                d.setType(cursor.getString(4));
+                d.setDescription( cursor.getString(5));
+                d.setValue(cursor.getString(6));
+
+                boolean matched = false;
+                for (int i = 0; i < Donation.donations.size(); i++){
+                    if (d.getName().equals(Donation.donations.get(i).getName())){
+                        if (d.getType().equals(Donation.donations.get(i).getType())){
+                            matched = true;
+                            Log.i("DonationListActivity", "Matched = True");
+                            Log.i("DonationListActivity", d.getName() + " " + Donation.donations.get(i).getName());
+                        }
+                    }
+                }
+
+                if (!matched){
+                    Donation.donations.add(d); //putting into an arraylist to be used now
+                    Donation.DONATION_MAP.put(d.getName(), d); //into a map to be used for other activities
+                    Log.i("DonationListActivity", "Added " + d.getName());
+                }
+
+            } while (cursor.moveToNext());//this line basically just says "do while there's lines to read
         }
+
     }
 
 }

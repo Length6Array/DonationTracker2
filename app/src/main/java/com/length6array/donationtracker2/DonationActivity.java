@@ -111,8 +111,6 @@ public class DonationActivity extends AppCompatActivity {
                                } else {
                                    Toast.makeText(DonationActivity.this, "Donation Not Added", Toast.LENGTH_SHORT).show();
                                }
-
-
                                //old way. this can prob be deleted
 //                               Donation.setDonations(newDonation);
 //                               Location.ITEM_MAP.get(newDonation.getLocation()).addDonation(newDonation);
