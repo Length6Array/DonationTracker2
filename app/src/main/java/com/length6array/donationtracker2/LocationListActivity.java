@@ -39,11 +39,15 @@ public class LocationListActivity extends AppCompatActivity {
      * device.
      */
     private boolean mTwoPane;
+    personDBHandler personDBHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location_list);
+
+        personDBHandler = new personDBHandler(this, null, null, 1);
+        updateUsers();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -199,5 +203,12 @@ public class LocationListActivity extends AppCompatActivity {
             Log.i("LocationListActivity", "Error reading Location Data");
             e.printStackTrace();
         }
+    }
+
+    private void updateUsers() {
+        for (int i = 0; i < personDBHandler.getAllUsers().getCount(); i++){
+
+        }
+
     }
 }

@@ -114,8 +114,8 @@ public class DonationActivity extends AppCompatActivity {
 
 
                                //old way. this can prob be deleted
-                               Donation.setDonations(newDonation);
-                               Location.ITEM_MAP.get(newDonation.getLocation()).addDonation(newDonation);
+//                               Donation.setDonations(newDonation);
+//                               Location.ITEM_MAP.get(newDonation.getLocation()).addDonation(newDonation);
 
                                Intent intent = new Intent(DonationActivity.this, DonationsListActivity.class);
                                intent.putExtra("Location", newDonation.getLocation());

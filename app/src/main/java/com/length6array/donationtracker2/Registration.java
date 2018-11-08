@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.graphics.RegionIterator;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
@@ -61,10 +62,16 @@ public class Registration extends AppCompatActivity implements LoaderCallbacks<C
     private EditText reTypePassword;
     private Spinner userSpinner;
 
+
+    personDBHandler personDBHandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
+
+        personDBHandler = new personDBHandler(this, null, null, 1);
+
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -108,7 +115,7 @@ public class Registration extends AppCompatActivity implements LoaderCallbacks<C
         userSpinner = findViewById(R.id.personType);
 
         //this adapter fills in the spinner with the different types of users
-        ArrayAdapter<String> adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, LoginActivity.userType);
+        ArrayAdapter<String> adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, Person.userTypes);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         userSpinner.setAdapter(adapter);
     }
@@ -311,14 +318,21 @@ public class Registration extends AppCompatActivity implements LoaderCallbacks<C
                 return false;
             }
 
-            if (LoginActivity.credentials.containsKey(mEmail)){
+            if (Person.credentials.containsKey(mEmail)){
                 Log.i("Registration", "Found taken email");
                 mEmailView.setError(getString(R.string.email_Taken));
                 return false;
             } else {
                 //THIS IS THAT KEY IMPORTANT THING
                 Log.i("Registration", "Making new account");
-                LoginActivity.setEmails(mEmail, mPassword, mUserType);
+                Person p = new Person(mEmail, mPassword, mUserType);
+               if (personDBHandler.addPerson(p))
+                   Toast.makeText(Registration.this,"User added!", Toast.LENGTH_SHORT).show();
+               else {
+                   Toast.makeText(Registration.this,"User not added!", Toast.LENGTH_SHORT).show();
+               }
+                Person.credentials.put(mEmail, mPassword);
+                Person.allUsers.add(p);
                 return true;
             }
         }

@@ -47,13 +47,13 @@ import java.util.List;
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
-    public static List<String> userType = Arrays.asList("User", "Admin", "Guest", "Location Employee");
-    /**
-     * Stores Email and passwords. Will be phased out and replaced with Person objects
-     */
-    protected static HashMap<String, String> credentials = new HashMap<>();
-
-    protected static ArrayList<Person> allUsers = new ArrayList<>();
+//    public static List<String> userType = Arrays.asList("User", "Admin", "Guest", "Location Employee");
+//    /**
+//     * Stores Email and passwords. Will be phased out and replaced with Person objects
+//     */
+//    protected static HashMap<String, String> credentials = new HashMap<>();
+//
+//    protected static ArrayList<Person> allUsers = new ArrayList<>();
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -66,12 +66,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mLoginFormView;
     private Spinner userSpinner;
 
+
+    //Handler
+    personDBHandler personDBHandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+
+        personDBHandler = new personDBHandler(this, null, null, 1);
 
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -105,7 +111,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mProgressView = findViewById(R.id.login_progress);
         userSpinner = findViewById(R.id.userSpinner);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, userType);
+        ArrayAdapter<String> adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, Person.userTypes);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         userSpinner.setAdapter(adapter);
     }
@@ -287,7 +293,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 return false;
             }
 
-            for (Person p : allUsers){
+            for (Person p : Person.allUsers){
                 if (p.getEmail().equals(mEmail)){
                     if (p.getPassword().equals(mPassword)){
                         if (p.getUserType().equals(muserType)){
@@ -333,10 +339,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
-    public static void setEmails(String email, String password, String userType){
-        Person user = new Person(email, password, userType);
-        allUsers.add(user);
-        credentials.put(email, password);
+    public void setEmails(String email, String password, String userType){
+        Person p = new Person(email, password, userType);
+        personDBHandler.addPerson(p);
+        Person.allUsers.add(p);
+        Person.credentials.put(email, password);
     }
 
 }

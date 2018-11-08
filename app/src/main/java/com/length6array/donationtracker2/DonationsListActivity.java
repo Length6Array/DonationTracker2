@@ -116,8 +116,7 @@ public class DonationsListActivity extends AppCompatActivity {
 
         //THIS IS THE DATABASE STUFF!!!!!
         myDBHandler = new myDBHandler(this, null, null, 1);
-     //   loadDonationsFromDatabase();
-
+        updateDonations();
 
 
         //this is just making a new locations string to include "all"
@@ -405,43 +404,13 @@ public class DonationsListActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * This method pulls from the database and puts all the donations in the
-     * Donation class's Arraylist: donations and Map: DONATION_MAP to be used
-     * while the app is running
-     *
-     * Tip: Just put the values that you get into the maps and lists that
-     * have already been defined so that you don't have to change
-     * anything else in the program. Idk why but I was really dumb and originally
-     * created like an arraylist "databaseDonations" and decided to use
-     * that but it was more of a hassle bc other classes reference
-     * those maps and arraylists defined in Location, Donation, and Person
-     * so it would cause compile errors bc those would be null
-     * and only "databaseDonations", which was local to this class,
-     * only had the data. Pls don't be dumb like me.
-     */
-//    private void loadDonationsFromDatabase() {
-//        Cursor cursor = myDBHandler.getAllDonations();
-//
-//
-//        if (cursor.moveToFirst()) { //if there/s a line to be read
-//            do {
-//              Donation d =  new Donation();
-//               d.setName(cursor.getString(1));
-//               d.setLocation(cursor.getString(2));
-//               d.setDateAdded( cursor.getString(3));
-//               d.setType(cursor.getString(4));
-//               d.setDescription( cursor.getString(5));
-//
-//
-//               //THIS WILL CAUSE AN ERROR IF UNCOMMENTED. STILL NEED TO FIGURE OUT WHY.
-//              // d.setValue(cursor.getFloat(6));
-//
-//               Donation.donations.add(d); //putting into an arraylist to be used now
-//               Donation.DONATION_MAP.put(d.getName(), d); //into a map to be used for other activities
-//            } while (cursor.moveToNext());//this line basically just says "do while there's lines to read
-//        }
-//    }
+
+    private void updateDonations() {
+        boolean newDonation = true;
+        for (int i = 0; i < myDBHandler.getAllDonations().getCount(); i++){
+            //if ()
+        }
+    }
 
 }
 

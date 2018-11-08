@@ -24,6 +24,7 @@ import java.nio.charset.Charset;
 public class Welcome extends AppCompatActivity {
 
     myDBHandler myDBHandler;
+    personDBHandler personDBHandler;
 
 
     @Override
@@ -33,13 +34,14 @@ public class Welcome extends AppCompatActivity {
 
         readLocations();
 
-      //  myDBHandler.onUpgrade(myDBHandler.getWritableDatabase(), 1, 2);
-
+        personDBHandler = new personDBHandler(this, null, null, 1);
         myDBHandler = new myDBHandler(this, null, null, 2);
-        //myDBHandler.onUpgrade(myDBHandler.getWritableDatabase(), 1, 2);
 
+
+        //uncomment only to clear out all donations from databas
         // clearDatabase();
         loadDonationsFromDatabase();
+        loadUsers();
 
 
 
@@ -69,15 +71,41 @@ public class Welcome extends AppCompatActivity {
             }
         });
     }
+
+    private void loadUsers() {
+        Cursor cursor = personDBHandler.getAllUsers();
+        Log.i("Welcome", "User count " + personDBHandler.getAllUsers().getCount() + "");
+        if (cursor.moveToFirst()){
+            do {
+                Person person = new Person();
+                person.setEmail(cursor.getColumnName(0));
+                person.setPassword(cursor.getColumnName(1));
+                person.setUserType(cursor.getColumnName(2));
+
+                Log.i("Welcome", cursor.getColumnName(0));
+
+                boolean matched = false;
+                for (int i = 0; i < Person.allUsers.size(); i++){
+                    if (person.getEmail().equals(Person.allUsers.get(i).getEmail())){
+                            matched = true;
+                            Log.i("Welcome", "Matched = True, " + person.getEmail());
+                        }
+                }
+                if (!matched){
+                    Person.allUsers.add(person); //putting into an arraylist to be used now
+                    Person.credentials.put(person.getEmail(), person.getPassword()); //into a map to be used for other activities
+                }
+
+            } while (cursor.moveToNext());
+        }
+    }
+
     public void loadDonationsFromDatabase() {
         Cursor cursor = myDBHandler.getAllDonations();
-        Log.i("Welcome", Donation.donations.size() + "");
         int count = myDBHandler.getAllDonations().getCount();
-        Log.i("Welcome", count + "");
         if (cursor.moveToFirst()) { //if there's a line to be read
             do {
 
-                String loc = cursor.getString(2);
                 Donation d =  new Donation();
                 d.setName(cursor.getString(1));
                 d.setLocation(cursor.getString(2));
@@ -86,9 +114,6 @@ public class Welcome extends AppCompatActivity {
                 d.setDescription( cursor.getString(5));
                 d.setValue(cursor.getString(6));
 
-
-                Log.i("Welcome", "In database: " + d.getName());
-                Log.i("Welcome", d.getName() + " LOCATION = "  + d.getLocation());
 
                 boolean matched = false;
                 for (int i = 0; i < Donation.donations.size(); i++){
@@ -140,10 +165,10 @@ public class Welcome extends AppCompatActivity {
                 String[] tokens = line.split(",");
 
                 //checking for duplicate
-                Log.i("LocationListActivity", "Location Items size: " + Location.locations.size());
+              //  Log.i("LocationListActivity", "Location Items size: " + Location.locations.size());
                 for (int i = 0; i < Location.locations.size(); i++) {
                     if ((Location.locations.get(i).getName().equals(tokens[1]))) {
-                        Log.i("LocationListActivity", "Duplicate: " + tokens[1]);
+               //         Log.i("LocationListActivity", "Duplicate: " + tokens[1]);
                         duplicate = true;
                     }
                 }
@@ -165,7 +190,7 @@ public class Welcome extends AppCompatActivity {
 
                     Location.locations.add(newLocation);
                     Location.ITEM_MAP.put(newLocation.getName(), newLocation);
-                    Log.i("LocationListActivity", "Just Added: " + newLocation.getName());
+                //    Log.i("LocationListActivity", "Just Added: " + newLocation.getName());
                 }
             }
         } catch (IOException e) {
