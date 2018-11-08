@@ -116,7 +116,7 @@ public class DonationsListActivity extends AppCompatActivity {
 
         //THIS IS THE DATABASE STUFF!!!!!
         myDBHandler = new myDBHandler(this, null, null, 1);
-        loadDonationsFromDatabase();
+     //   loadDonationsFromDatabase();
 
 
 
@@ -420,28 +420,28 @@ public class DonationsListActivity extends AppCompatActivity {
      * and only "databaseDonations", which was local to this class,
      * only had the data. Pls don't be dumb like me.
      */
-    private void loadDonationsFromDatabase() {
-        Cursor cursor = myDBHandler.getAllDonations();
-
-
-        if (cursor.moveToFirst()) { //if there/s a line to be read
-            do {
-              Donation d =  new Donation();
-               d.setName(cursor.getString(1));
-               d.setLocation(cursor.getString(2));
-               d.setDateAdded( cursor.getString(3));
-               d.setType(cursor.getString(4));
-               d.setDescription( cursor.getString(5));
-
-
-               //THIS WILL CAUSE AN ERROR IF UNCOMMENTED. STILL NEED TO FIGURE OUT WHY.
-              // d.setValue(cursor.getFloat(6));
-
-               Donation.donations.add(d); //putting into an arraylist to be used now
-               Donation.DONATION_MAP.put(d.getName(), d); //into a map to be used for other activities
-            } while (cursor.moveToNext());//this line basically just says "do while there's lines to read
-        }
-    }
+//    private void loadDonationsFromDatabase() {
+//        Cursor cursor = myDBHandler.getAllDonations();
+//
+//
+//        if (cursor.moveToFirst()) { //if there/s a line to be read
+//            do {
+//              Donation d =  new Donation();
+//               d.setName(cursor.getString(1));
+//               d.setLocation(cursor.getString(2));
+//               d.setDateAdded( cursor.getString(3));
+//               d.setType(cursor.getString(4));
+//               d.setDescription( cursor.getString(5));
+//
+//
+//               //THIS WILL CAUSE AN ERROR IF UNCOMMENTED. STILL NEED TO FIGURE OUT WHY.
+//              // d.setValue(cursor.getFloat(6));
+//
+//               Donation.donations.add(d); //putting into an arraylist to be used now
+//               Donation.DONATION_MAP.put(d.getName(), d); //into a map to be used for other activities
+//            } while (cursor.moveToNext());//this line basically just says "do while there's lines to read
+//        }
+//    }
 
 }
 
