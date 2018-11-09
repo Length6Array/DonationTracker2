@@ -44,5 +44,6 @@
     <string name="title_donations_detail">Donations Detail</string>
     <string name="filter">Filter</string>
     <string name="search_for_donation">Search for Donation</string>
+    <string name="title_activity_google_maps">Map</string>
 
 </resources>

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.database.Cursor;
 
 
 /**
@@ -42,23 +43,5 @@ public class Welcome extends AppCompatActivity {
                 startActivity(new Intent(Welcome.this, Registration.class));
             }
         });
-    }
-
-    private void loadPersonFromPersonDatabase() {
-        Cursor cursor = PersonDBHandler.getAllUsers();
-
-
-        if (cursor.moveToFirst()) { //if there/s a line to be read
-            do {
-                Person p =  new Person();
-                p.setEmail(cursor.getString(1));
-                p.setPassword(cursor.getString(2));
-                p.setUserType( cursor.getString(3));
-
-
-                LoginActivity.allUsers.add(p); //putting into an arraylist to be used now
-                LoginActivity.credentials.put(p.getEmail(), p.getPassword()); //into a map to be used for other activities
-            } while (cursor.moveToNext());//this line basically just says "do while there's lines to read
-        }
     }
 }
