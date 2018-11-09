@@ -82,7 +82,7 @@ public class Welcome extends AppCompatActivity {
                 person.setPassword(cursor.getColumnName(1));
                 person.setUserType(cursor.getColumnName(2));
 
-                Log.i("Welcome", cursor.getColumnName(0));
+                Log.i("Welcome", cursor.getString(0));
 
                 boolean matched = false;
                 for (int i = 0; i < Person.allUsers.size(); i++){

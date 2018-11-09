@@ -71,7 +71,7 @@ public class DonationActivity extends AppCompatActivity {
         type.setAdapter(adapter);
 
         //initializes dbHandler
-        dbHandler = new myDBHandler(this,  null, null, 1);
+        dbHandler = new myDBHandler(this,  null, null, 2);
 
         readLocations();
         ArrayList<String> locationName = new ArrayList<>();
