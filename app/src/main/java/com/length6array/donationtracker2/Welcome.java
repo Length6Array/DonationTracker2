@@ -25,6 +25,7 @@ public class Welcome extends AppCompatActivity {
 
     myDBHandler myDBHandler;
     personDBHandler personDBHandler;
+    locationDBHandler locationDBHandler;
 
 
     @Override
@@ -32,16 +33,16 @@ public class Welcome extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-        readLocations();
-
         personDBHandler = new personDBHandler(this, null, null, 1);
         myDBHandler = new myDBHandler(this, null, null, 2);
+        locationDBHandler = new locationDBHandler(this, null, null, 1);
 
-
-        //uncomment only to clear out all donations from databas
+        //uncomment only to clear out all donations from database
         // clearDatabase();
+        clearLocationDatabase();
         loadDonationsFromDatabase();
         loadUsers();
+        loadLocations();
 
 
 
@@ -146,6 +147,63 @@ public class Welcome extends AppCompatActivity {
         Log.i("Welcome" ," Total DONATIONS: " + Donation.donations.size());
     }
 
+    public void clearLocationDatabase(){
+        Cursor cursor = locationDBHandler.getAllLocations();
+        if (cursor.moveToFirst()) { //if there's a line to be read
+            do {
+                locationDBHandler.deleteLocation(cursor.getString(1));
+            } while(cursor.moveToNext());
+        }
+        Location.locations.clear();
+        Location.ITEM_MAP.clear();
+        //loadDonationsFromDatabase();
+        Log.i("Welcome" ," Total Locations: " + Location.locations.size());
+    }
+
+    void loadLocations(){
+        if (locationDBHandler.getAllLocations().getCount() == 0){
+            readLocations();
+        }
+        Cursor cursor = locationDBHandler.getAllLocations();
+        int count = locationDBHandler.getAllLocations().getCount();
+        if (cursor.moveToFirst()) { //if there's a line to be read
+            do {
+                Location l = new Location();
+                l.setName(cursor.getString(0));
+                l.setLatitude(cursor.getFloat(1));
+                l.setLongitude(cursor.getFloat(2));
+                l.setAddress(cursor.getString(3));
+                l.setCity(cursor.getString(4));
+                l.setState(cursor.getString(5));
+                l.setZipCode(cursor.getInt(6));
+                l.setType(cursor.getString(7));
+                l.setPhone(cursor.getString(8));
+                l.setWebsite(cursor.getString(9));
+
+
+
+                boolean matched = false;
+                for (int i = 0; i < Location.locations.size(); i++){
+                    if (l.getName().equals(Location.locations.get(i).getName())){
+                        if (l.getType().equals(Location.locations.get(i).getType())){
+                            matched = true;
+                            Log.i("Welcome", "Matched = True, " + l.getName());
+                        }
+                    }
+                }
+
+                if (!matched){
+                    Location.locations.add(l); //putting into an arraylist to be used now
+                    Location.ITEM_MAP.put(l.getName(), l); //into a map to be used for other activities
+                }
+
+                Log.i("Welcome", "Total Locations: " + Location.locations.size());
+            } while (cursor.moveToNext());//this line basically just says "do while there's lines to read
+        }
+
+
+
+    }
     /**
      * This method reads in all the locations from the csv file found in res.raw
      */
@@ -165,10 +223,8 @@ public class Welcome extends AppCompatActivity {
                 String[] tokens = line.split(",");
 
                 //checking for duplicate
-              //  Log.i("LocationListActivity", "Location Items size: " + Location.locations.size());
                 for (int i = 0; i < Location.locations.size(); i++) {
                     if ((Location.locations.get(i).getName().equals(tokens[1]))) {
-               //         Log.i("LocationListActivity", "Duplicate: " + tokens[1]);
                         duplicate = true;
                     }
                 }
@@ -188,9 +244,9 @@ public class Welcome extends AppCompatActivity {
                     newLocation.setPhone(tokens[9]);
                     newLocation.setWebsite(tokens[10]);
 
+                    locationDBHandler.addLocation(newLocation);
                     Location.locations.add(newLocation);
                     Location.ITEM_MAP.put(newLocation.getName(), newLocation);
-                //    Log.i("LocationListActivity", "Just Added: " + newLocation.getName());
                 }
             }
         } catch (IOException e) {

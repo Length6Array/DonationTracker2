@@ -51,7 +51,7 @@ public class locationDBHandler extends SQLiteOpenHelper {
                 ") ;";
         db.execSQL(query);
     }
-    
+
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -67,7 +67,16 @@ public class locationDBHandler extends SQLiteOpenHelper {
 
     public boolean addLocation(Location location){
         ContentValues values = new ContentValues();
-
+        values.put(COLUMN_NAME, location.getName()); //0
+        values.put(COLUMN_LATITUDE, location.getLatitude()); //1
+        values.put(COLUMN_LONGITUDE, location.getLongitude()); //2
+        values.put(COLUMN_ADDRESS, location.getAddress()); //3
+        values.put(COLUMN_CITY, location.getCity()); //4
+        values.put(COLUMN_STATE, location.getState()); //5
+        values.put(COLUMN_ZIPCODE, location.getZipCode()); //6
+        values.put(COLUMN_TYPE, location.getType()); //7
+        values.put(COLUMN_PHONE, location.getPhone()); //8
+        values.put(COLUMN_WEBSITE, location.getWebsite()); //9
         SQLiteDatabase db = getWritableDatabase();
         //true if accurately added to table
         return  (db.insert(TABLE_LOCATIONS, null, values) != -1);

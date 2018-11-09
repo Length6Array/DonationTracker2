@@ -62,6 +62,8 @@ public class Location {
     private String website;
     public ArrayList<Donation> donationItems = new ArrayList<>();
 
+    public Location(){ }
+
     public int getKey() {
         return key;
     }
