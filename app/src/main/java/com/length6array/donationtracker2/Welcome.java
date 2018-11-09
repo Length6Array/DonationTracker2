@@ -78,9 +78,9 @@ public class Welcome extends AppCompatActivity {
         if (cursor.moveToFirst()){
             do {
                 Person person = new Person();
-                person.setEmail(cursor.getColumnName(0));
-                person.setPassword(cursor.getColumnName(1));
-                person.setUserType(cursor.getColumnName(2));
+                person.setEmail(cursor.getString(0));
+                person.setPassword(cursor.getString(1));
+                person.setUserType(cursor.getString(2));
 
                 Log.i("Welcome", cursor.getString(0));
 
