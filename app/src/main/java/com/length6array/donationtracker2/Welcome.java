@@ -25,7 +25,7 @@ import java.nio.charset.Charset;
 public class Welcome extends AppCompatActivity {
 
     myDBHandler myDBHandler;
-    personDBHandler personDBHandler;
+    PersonDBHandler personDBHandler;
     locationDBHandler locationDBHandler;
 
 
@@ -34,7 +34,7 @@ public class Welcome extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-        personDBHandler = new personDBHandler(this, null, null, 1);
+        personDBHandler = new PersonDBHandler(this, null, null, 1);
         myDBHandler = new myDBHandler(this, null, null, 2);
         locationDBHandler = new locationDBHandler(this, null, null, 1);
 

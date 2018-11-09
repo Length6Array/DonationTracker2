@@ -30,10 +30,6 @@ public class Person {
         this.userType = userType;
     }
 
-    public Person() {
-
-    }
-
     public Person(){}
 
     public void setEmail(String email){

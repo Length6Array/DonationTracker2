@@ -39,7 +39,7 @@ public class LocationListActivity extends AppCompatActivity {
      * device.
      */
     private boolean mTwoPane;
-    personDBHandler personDBHandler;
+    PersonDBHandler personDBHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

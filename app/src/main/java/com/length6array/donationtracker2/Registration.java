@@ -63,14 +63,14 @@ public class Registration extends AppCompatActivity implements LoaderCallbacks<C
     private Spinner userSpinner;
 
 
-    personDBHandler personDBHandler;
+    PersonDBHandler personDBHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
-        personDBHandler = new personDBHandler(this, null, null, 1);
+        personDBHandler = new PersonDBHandler(this, null, null, 1);
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
