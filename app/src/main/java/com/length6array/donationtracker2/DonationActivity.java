@@ -92,8 +92,7 @@ public class DonationActivity extends AppCompatActivity {
                 if (name.getText() != null) {
                    if (value.getText() != null){
                        if (description != null){
-                           if (type != null){
-
+                           if (type != null) {
 
                                Donation newDonation = new Donation();
                                newDonation.setName(name.getText().toString());
@@ -102,7 +101,6 @@ public class DonationActivity extends AppCompatActivity {
                                newDonation.setDescription(description.getText().toString());
                                newDonation.setValue(value.getText().toString());
                                newDonation.setLocation(Location.ITEM_MAP.get(location.getSelectedItem().toString()));
-
 
                                //if successful, will say "Donation Added"
                                if(dbHandler.addDonation(newDonation)){

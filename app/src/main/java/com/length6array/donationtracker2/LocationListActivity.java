@@ -46,9 +46,6 @@ public class LocationListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location_list);
 
-        personDBHandler = new personDBHandler(this, null, null, 1);
-        updateUsers();
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
@@ -205,10 +202,5 @@ public class LocationListActivity extends AppCompatActivity {
         }
     }
 
-    private void updateUsers() {
-        for (int i = 0; i < personDBHandler.getAllUsers().getCount(); i++){
 
-        }
-
-    }
 }

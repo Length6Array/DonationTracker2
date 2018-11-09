@@ -118,16 +118,14 @@ public class DonationsListActivity extends AppCompatActivity {
         getUpdatedDatabase();
 
 
-        for (int i = 0; i < myDBHandler.getAllDonations().getCount(); i++){
-            ArrayList<String> test = new ArrayList<>();
-            Cursor cursor = myDBHandler.getAllDonations();
-            if (cursor.moveToFirst()){
-                do {
-                   test.add(cursor.getString(1));
-                } while (cursor.moveToNext());
-            }
-
+        ArrayList<String> test = new ArrayList<>();
+        Cursor cursor = myDBHandler.getAllDonations();
+        if (cursor.moveToFirst()){
+            do {
+                test.add(cursor.getString(1));
+            } while (cursor.moveToNext());
         }
+
 
         //this is just making a new locations string to include "all"
         for (int i = 0; i < Location.locations.size(); i++) {

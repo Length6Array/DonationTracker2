@@ -39,10 +39,10 @@ public class Welcome extends AppCompatActivity {
 
         //uncomment only to clear out all donations from database
         // clearDatabase();
-        clearLocationDatabase();
+        // clearLocationDatabase();
+        loadLocations();
         loadDonationsFromDatabase();
         loadUsers();
-        loadLocations();
 
 
 
