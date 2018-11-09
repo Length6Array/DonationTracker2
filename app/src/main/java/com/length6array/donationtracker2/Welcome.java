@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.database.Cursor;
 
 import java.io.BufferedReader;
 import java.io.IOException;

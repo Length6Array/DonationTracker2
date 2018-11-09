@@ -50,6 +50,13 @@ public class LocationListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
+        FloatingActionButton openMap = (FloatingActionButton) findViewById(R.id.openMap);
+        openMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity((new Intent(LocationListActivity.this, GoogleMapsActivity.class)));
+            }
+        });
 
         //TODO this will be used to add new Locations.
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
