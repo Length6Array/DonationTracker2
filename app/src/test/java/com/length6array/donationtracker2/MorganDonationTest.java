@@ -5,7 +5,8 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 /**
- *  Tests the Donation constructor method, which creates a donation given
+ *  Tests the Donation constructor method, which creates a donation given non-null parameters
+ *  AND the location given exists in the location list.
  */
 public class MorganDonationTest {
 
