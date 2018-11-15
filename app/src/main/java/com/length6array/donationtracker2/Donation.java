@@ -1,6 +1,7 @@
 package com.length6array.donationtracker2;
 
-import android.media.Image;
+import 	android.media.Image;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +18,10 @@ public class Donation {
 
     public static final Map<String, Donation> DONATION_MAP = new HashMap<>();
 
+    /**
+     * getter method to return list of donated items
+     * @return arraylist of donations containing type Donation
+     */
     public static List<Donation> getDonations() {
         return donations;
     }
@@ -39,8 +44,8 @@ public class Donation {
     private Location location;
     private String dateAdded;
     private String value;
-    private String type; // probably needs to be changed to enum type
-    private String description; // this is long description, need short one
+    private String type;  //probably needs to be changed to enum type
+    private String description; //this is long description, need short one
     private Image image;
 
     public Donation(String name, Location location, String value, String date, String description) {
@@ -49,25 +54,22 @@ public class Donation {
         this.value = value;
         dateAdded = date;
         this.description = description;
+
     }
 
     public Donation(String name, String location, String value, String date, String description) {
-        if (name == null || location == null || value == null || date == null || description == null){
-            throw new NullPointerException();
-        }
-        boolean invalidLocation = true;
-        for (int i = 0; i < Location.locations.size(); i++) {
+        for (int i = 0; i < Location.allDonations.size(); i++) {
             if (location.equals(Location.locations.get(i).getName())) {
-                invalidLocation = false;
-                new Donation(name, Location.locations.get(i), value, date, description);
+                Donation d = new Donation(name, Location.locations.get(i), value, date, description);
             }
-        }
-        if (invalidLocation) {
-            throw new IllegalArgumentException();
         }
     }
 
-    public Donation() {};
+    public Donation() {
+    }
+
+    ;
+
 
     public String getName() {
         return name;
@@ -81,21 +83,22 @@ public class Donation {
         return location.getName();
     }
 
+
     /**
-     * This is where im worried an error may come in, as when I'm making Donations in the Location
-     * list Activity I call this method. If Location.locations has not been populated before this
-     * happens there will be a null error. Just make sure to load Location data before Donation
-     * data!
-     *
+     * This is where im worried an error may come in, as when I'm making Donations in the
+     * Location list Activity I call this method. If Location.locations has not been populated
+     * before this happens there will be a null error. Just make sure to load Location data before
+     * Donation data!
      * @param location
      */
     public void setLocation(String location) {
-        for (int i = 0; i < Location.locations.size(); i++) {
-            if (location.equals(Location.locations.get(i).getName())) {
+        for (int i = 0; i < Location.locations.size(); i++){
+            if (location.equals(Location.locations.get(i).getName())){
                 this.location = Location.locations.get(i);
             }
         }
     }
+
 
     public void setLocation(Location location) {
         this.location = location;
