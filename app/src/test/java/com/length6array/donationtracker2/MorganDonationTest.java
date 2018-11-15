@@ -143,7 +143,7 @@ public class MorganDonationTest {
 
 
     /**
-     * multiple donation items can be created to the same location.
+     * Tests multiple donation items can be created to the same location.
      */
     @Test
     public void multipleDonationsToLocation(){
