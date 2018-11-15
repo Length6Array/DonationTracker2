@@ -52,11 +52,18 @@ public class Donation {
     }
 
     public Donation(String name, String location, String value, String date, String description) {
-        for (int i = 0; i < Location.allDonations.size(); i++) {
+        if (name == null || location == null || value == null || date == null || description == null){
+            throw new NullPointerException();
+        }
+        boolean invalidLocation = true;
+        for (int i = 0; i < Location.locations.size(); i++) {
             if (location.equals(Location.locations.get(i).getName())) {
-                Donation d =
-                        new Donation(name, Location.locations.get(i), value, date, description);
+                invalidLocation = false;
+                new Donation(name, Location.locations.get(i), value, date, description);
             }
+        }
+        if (invalidLocation) {
+            throw new IllegalArgumentException();
         }
     }
 

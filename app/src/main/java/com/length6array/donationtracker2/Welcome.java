@@ -156,7 +156,7 @@ public class Welcome extends AppCompatActivity {
         Log.i("Welcome", " Total Locations: " + Location.locations.size());
     }
 
-    void loadLocations() {
+   public void loadLocations() {
         if (locationDBHandler.getAllLocations().getCount() == 0) {
             readLocations();
         }

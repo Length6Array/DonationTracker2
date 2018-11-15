@@ -340,7 +340,7 @@ public class DonationsListActivity extends AppCompatActivity {
      * @param selectedType the donation type specified by the user with spinner
      * @return
      */
-    private ArrayList<Donation> sort(String selectedLocation, String selectedType) {
+    public ArrayList<Donation> sort(String selectedLocation, String selectedType) {
         ArrayList<Donation> sort = new ArrayList<>();
         Log.i("SelectedLocation", selectedLocation);
         if (selectedLocation.equals("All")) { // all locations
@@ -373,13 +373,13 @@ public class DonationsListActivity extends AppCompatActivity {
         return search(sorted, search);
     }
 
-    private ArrayList<Donation> search(ArrayList<Donation> donation, String search) {
+    public ArrayList<Donation> search(ArrayList<Donation> donation, String search) {
 
         // basically for if the user backspaces all the way so that there's no characters
         // will just return the donations as have been sorted up to this point
         // if by filtering it causes no results, this is shown to the user
         if (search == null || search.length() == 0) {
-            Log.i("Search", "search is empty or null");
+   //         Log.i("Search", "search is empty or null");
             if (donation.size() == 0) { // say "no items matching search"
                 noItems.setVisibility(TextView.VISIBLE);
             } else {
@@ -388,14 +388,11 @@ public class DonationsListActivity extends AppCompatActivity {
             return donation;
         } else {
             ArrayList<Donation> sorted = new ArrayList<>();
-            Log.i("Search", search);
             for (int i = 0; i < donation.size(); i++) {
-                Log.i("Method search", donation.get(i).getName());
             }
             for (int i = 0; i < donation.size(); i++) {
                 if (donation.get(i).getName().toLowerCase().contains(search)) {
                     sorted.add(donation.get(i));
-                    Log.i("Method Search Added ", donation.get(i).getName());
                 }
             }
             if (sorted.size() == 0) { // say "no items matching search"

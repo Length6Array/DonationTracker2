@@ -21,5 +21,8 @@ public class ExampleInstrumentedTest {
         Context appContext = InstrumentationRegistry.getTargetContext();
 
         assertEquals("com.length6array.donationtracker2", appContext.getPackageName());
+
     }
+
+
 }
