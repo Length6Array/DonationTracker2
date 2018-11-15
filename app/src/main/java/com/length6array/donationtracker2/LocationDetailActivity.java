@@ -3,24 +3,20 @@ package com.length6array.donationtracker2;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 
 /**
- * An activity representing a single Location detail screen. This
- * activity is only used on narrow width devices. On tablet-size devices,
- * item details are presented side-by-side with a list of items
- * in a {@link LocationListActivity}.
+ * An activity representing a single Location detail screen. This activity is only used on narrow
+ * width devices. On tablet-size devices, item details are presented side-by-side with a list of
+ * items in a {@link LocationListActivity}.
  *
- * Heyo okay so like this one is used to contain the LocationDetailFragment.
- * Has two buttons, add Donation and editLocation
- * ALSO, you can click on a textEdit called Donations (its in the Fragment)
- * that will take you to the list of donations for that specific location.
- *
+ * <p>Heyo okay so like this one is used to contain the LocationDetailFragment. Has two buttons, add
+ * Donation and editLocation ALSO, you can click on a textEdit called Donations (its in the
+ * Fragment) that will take you to the list of donations for that specific location.
  */
 public class LocationDetailActivity extends AppCompatActivity {
 
@@ -31,23 +27,26 @@ public class LocationDetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
 
-
-        //TODO make this go to edit location
+        // TODO make this go to edit location
         FloatingActionButton editLocation = (FloatingActionButton) findViewById(R.id.editLocation);
-        editLocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity((new Intent(LocationDetailActivity.this, DonationActivity.class)));
-            }
-        });
+        editLocation.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(
+                                (new Intent(LocationDetailActivity.this, DonationActivity.class)));
+                    }
+                });
 
         FloatingActionButton addDonation = (FloatingActionButton) findViewById(R.id.addDonation);
-        addDonation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity((new Intent(LocationDetailActivity.this, DonationActivity.class)));
-            }
-        });
+        addDonation.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(
+                                (new Intent(LocationDetailActivity.this, DonationActivity.class)));
+                    }
+                });
 
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
@@ -68,11 +67,13 @@ public class LocationDetailActivity extends AppCompatActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(LocationDetailFragment.ARG_ITEM_ID,
+            arguments.putString(
+                    LocationDetailFragment.ARG_ITEM_ID,
                     getIntent().getStringExtra(LocationDetailFragment.ARG_ITEM_ID));
             LocationDetailFragment fragment = new LocationDetailFragment();
             fragment.setArguments(arguments);
-            getSupportFragmentManager().beginTransaction()
+            getSupportFragmentManager()
+                    .beginTransaction()
                     .add(R.id.location_detail_container, fragment)
                     .commit();
         }

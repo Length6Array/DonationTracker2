@@ -81,40 +81,17 @@ public class Donation {
 
 
     /**
-     * Sets the location of a donation.
-     *
-     * @throws Exception if no locations have been added to the system
-     * @throws NullPointerException if an archived location is null
-     * @throws NullPointerException if an archived location's name is null
-     * @throws java.util.NoSuchElementException if the location argument doesn't exist
-     * in the system
-     * @param location the String location that the donation will be assigned to
+     * This is where im worried an error may come in, as when I'm making Donations in the
+     * Location list Activity I call this method. If Location.locations has not been populated
+     * before this happens there will be a null error. Just make sure to load Location data before
+     * Donation data!
+     * @param location
      */
     public void setLocation(String location) {
-        if (Location.locations.size() == 0) {
-            try {
-                throw new Exception("No locations have been added to the system.");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        boolean locationFound = false;
         for (int i = 0; i < Location.locations.size(); i++){
-            if (Location.locations.get(i) == null) {
-                throw new NullPointerException("An archived location is null.");
-            }
-            if (Location.locations.get(i).getName() == null) {
-                throw new NullPointerException("The name of an archived location is null,"
-                    + " and thus cannot be compared to for adding a donation.");
-            }
             if (location.equals(Location.locations.get(i).getName())){
                 this.location = Location.locations.get(i);
-                locationFound = true;
             }
-        }
-        if (!locationFound) {
-            throw new java.util.NoSuchElementException("The location argument"
-                    + " does not exist in the system.");
         }
     }
 
