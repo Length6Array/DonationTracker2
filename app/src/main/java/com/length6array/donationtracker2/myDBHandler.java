@@ -78,9 +78,12 @@ public class myDBHandler extends SQLiteOpenHelper {
     }
 
     /**
-     * add a new row to the database (a new donation) I changed this from the youtube example to the
-     * website one that has a return of boolean just so I'd know if it worked when I added to the
-     * table
+     *add a new row to the database (a new donation)
+     *I changed this from the youtube example to the website one that has a return of
+     *boolean just so I'd know if it worked when I added to the table
+     *
+     * @param donation Donation that is added to the Donation table
+     * @return Boolean representing whether or not the donation was successfully added
      */
     public boolean addDonation(Donation donation) {
         ContentValues values = new ContentValues();
@@ -95,7 +98,11 @@ public class myDBHandler extends SQLiteOpenHelper {
         return (db.insert(TABLE_DONATIONS, null, values) != -1);
     }
 
-    // delete product from database
+    /**
+     * This method deletes donations from the Donation database using the donationName
+     *
+     * @param donationName String representing the donationName of the donation that will be deleted
+     */
     public void deleteDonation(String donationName) {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL(
@@ -110,8 +117,11 @@ public class myDBHandler extends SQLiteOpenHelper {
 
     /**
      * I got some errors using this in other classes, I have to go back in later and figure out
-     * what's going on but if you wanna check what's happening I've been using Log.i("CLASS_NAME
-     * DATABASE", cursor.getString(COL #) + "" ) and that works too
+     * what's going on but if you wanna check what's happening I've been using
+     * Log.i("CLASS_NAME DATABASE", cursor.getString(COL #) + "" ) and that works too
+     *
+     *
+     * @return String of the database that is being represented
      */
     public String databaseToString() {
         String dbString = "";
@@ -129,11 +139,16 @@ public class myDBHandler extends SQLiteOpenHelper {
                 dbString += "\n";
             }
         }
+        c.close();
         db.close();
         return dbString;
     }
 
-    Cursor getAllDonations() {
+    /**
+     *
+     * @return Cursor connection to the Donation Table Database
+     */
+    public Cursor getAllDonations() {
         SQLiteDatabase db = getReadableDatabase();
         return db.rawQuery(" SELECT * FROM " + TABLE_DONATIONS, null);
     }

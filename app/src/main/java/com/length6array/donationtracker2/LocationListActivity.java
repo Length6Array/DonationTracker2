@@ -83,6 +83,9 @@ public class LocationListActivity extends AppCompatActivity {
                 new SimpleItemRecyclerViewAdapter(this, Location.locations, mTwoPane));
     }
 
+    /**
+     * Class representing the View for Items
+     */
     public static class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 

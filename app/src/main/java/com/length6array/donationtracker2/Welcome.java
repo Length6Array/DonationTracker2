@@ -96,6 +96,11 @@ public class Welcome extends AppCompatActivity {
         }
     }
 
+    /**
+     * This method loads all of the donations from the Database and puts them in the donation
+     * application view alon with the Donation Map
+     *
+     */
     public void loadDonationsFromDatabase() {
         Cursor cursor = myDBHandler.getAllDonations();
         int count = myDBHandler.getAllDonations().getCount();
@@ -131,6 +136,10 @@ public class Welcome extends AppCompatActivity {
         }
     }
 
+    /**
+     * This method clears all the donations from the Database
+     *
+     */
     public void clearDatabase() {
         Cursor cursor = myDBHandler.getAllDonations();
         if (cursor.moveToFirst()) { // if there's a line to be read
@@ -143,6 +152,11 @@ public class Welcome extends AppCompatActivity {
         Log.i("Welcome", " Total DONATIONS: " + Donation.donations.size());
     }
 
+    /**
+     * The method looks for a line to be read and if there is, then the location database is
+     * cleared and the items on the map are cleared.
+     *
+     */
     public void clearLocationDatabase() {
         Cursor cursor = locationDBHandler.getAllLocations();
         if (cursor.moveToFirst()) { // if there's a line to be read
@@ -156,6 +170,11 @@ public class Welcome extends AppCompatActivity {
         Log.i("Welcome", " Total Locations: " + Location.locations.size());
     }
 
+    /**
+     *This method pulls locations from the locationDBHandler class while adding the locations
+     * to the application view and the map view
+     *
+     */
    public void loadLocations() {
         if (locationDBHandler.getAllLocations().getCount() == 0) {
             readLocations();
