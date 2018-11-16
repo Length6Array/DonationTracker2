@@ -26,15 +26,27 @@ public class Donation {
         return donations;
     }
 
+    /**
+     * setter to add a donation item to the map and arraylist
+     * @param donation is type Donation
+     */
     public static void setDonations(Donation donation) {
         DONATION_MAP.put(donation.name, donation);
         Donation.donations.add(donation);
     }
 
+    /**
+     * getter to return variable Id
+     * @return id
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * setter to set variable id
+     * @param id int
+     */
     public void setId(int id) {
         this.id = id;
     }
@@ -70,26 +82,34 @@ public class Donation {
 
     ;
 
-
+    /**
+     * getter for variable name
+     * @return name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * setter to set variable name of donation
+     * @param name String
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * getter to return location of donation
+     * @return name of location
+     */
     public String getLocation() {
         return location.getName();
     }
 
 
     /**
-     * This is where im worried an error may come in, as when I'm making Donations in the
-     * Location list Activity I call this method. If Location.locations has not been populated
-     * before this happens there will be a null error. Just make sure to load Location data before
-     * Donation data!
-     * @param location
+     * setter to set name of location to local variable location
+     * @param location String
      */
     public void setLocation(String location) {
         for (int i = 0; i < Location.locations.size(); i++){
@@ -99,47 +119,90 @@ public class Donation {
         }
     }
 
-
+    /**
+     * setter to set location of type Location to local variable location
+     * @param location Location item
+     */
     public void setLocation(Location location) {
         this.location = location;
     }
 
+    /**
+     * getter for the date a donation was added
+     * @return String of date added
+     */
     public String getDateAdded() {
         return dateAdded;
     }
 
+    /**
+     * setter to set date of item donation
+     * @param dateAdded String
+     */
     public void setDateAdded(String dateAdded) {
         this.dateAdded = dateAdded;
     }
 
+    /**
+     * getter for local variable value
+     * @return value of donation item
+     */
     public String getValue() {
         return value;
     }
 
+    /**
+     * setter to set value of donation item
+     * @param value String
+     */
     public void setValue(String value) {
         this.value = value;
     }
 
+    /**
+     * getter for type of donation item
+     * @return type of item donated
+     */
     public String getType() {
         return type;
     }
 
+    /**
+     * setter to set type of donation item
+     * @param type String
+     */
     public void setType(String type) {
         this.type = type;
     }
 
+    /**
+     * getter for description of donation item
+     * @return description of donation item
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * setter to set desription
+     * @param description String
+     */
     public void setDescription(String description) {
         this.description = description;
     }
 
+    /**
+     * getter for image of donation item
+     * @return image of donated item
+     */
     public Image getImage() {
         return image;
     }
 
+    /**
+     * setter to set image associated with donated item
+     * @param image of type Image
+     */
     public void setImage(Image image) {
         this.image = image;
     }
