@@ -37,6 +37,13 @@ public class myDBHandler extends SQLiteOpenHelper {
     public static final String COLUMN_DESCRIPTION = "_description";
     public static final String COLUMN_VALUE = "_value";
 
+    /**
+     *
+     * @param context Context object
+     * @param name String representing name
+     * @param factory SQLiteDatabase representing factory
+     * @param version int representing version
+     */
     public myDBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
     }

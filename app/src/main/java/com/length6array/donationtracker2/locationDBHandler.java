@@ -6,7 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-
+/**
+ * This is a class that handles the DB and SQL functionality for Locations
+ */
 public class locationDBHandler extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
@@ -63,9 +65,7 @@ public class locationDBHandler extends SQLiteOpenHelper {
      *add a new row to the database (a new donation)
      *I changed this from the youtube example to the website one that has a return of
      *boolean just so I'd know if it worked when I added to the table
-     */
-
-    /**
+     *
      * method to know wether or not a new location has been added
      * @param location of type Location is the one being checked to see if it has been added
      * @return boolean of whether or not location has been added
@@ -126,6 +126,7 @@ public class locationDBHandler extends SQLiteOpenHelper {
                 dbString += "\n";
             }
         }
+        c.close();
         db.close();
         return dbString;
     }

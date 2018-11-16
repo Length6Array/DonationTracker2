@@ -4,6 +4,9 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Class testing the Person constructor
+ */
 public class MyTestWilson {
 	@Test
 	public void testPerson(){
@@ -29,8 +32,8 @@ public class MyTestWilson {
 		
 		int locationlen = Location.locations.size(); //Saves Location Array length
 
-		Location location1 = new Location(location1name); //Creates new location1
-		Location location2 = new Location(location2name); //Creates new location2
+		Location location1 = new Location(); //Creates new location1
+		Location location2 = new Location(); //Creates new location2
 
 		int newlocationlen = Location.locations.size();
 

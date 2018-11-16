@@ -26,6 +26,13 @@ public class Person {
     private String userType;
     private String location;
 
+    /**
+     *
+     * @param email string representing email
+     * @param password string representing password
+     * @param userType string representing userType
+     * @param location string representing location
+     */
     public Person(String email, String password, String userType, String location){
         this.email = email;
         this.password = password;
@@ -47,10 +54,19 @@ public class Person {
         }
     }
 
+    /**
+     *
+     * @param email string representing email
+     * @param password string representing password
+     * @param userType string representing userType
+     */
     public Person(String email, String password, String userType){
         this(email, password, userType, null);
     }
 
+    /**
+     * Empty constructor
+     */
     public Person(){}
 
     /**

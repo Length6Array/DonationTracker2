@@ -63,7 +63,12 @@ public class Location {
     public ArrayList<Donation> donationItems = new ArrayList<>();
 
     public Location(){
+        this("");
+    }
 
+    public Location(String name){
+        this(0,"",0,0,"","","",
+                0,"","","");
     }
 
     public Location(int key, String name, float latitude, float longitude, String address,

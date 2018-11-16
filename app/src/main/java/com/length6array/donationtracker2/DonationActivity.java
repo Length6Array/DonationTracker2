@@ -145,6 +145,7 @@ public class DonationActivity extends AppCompatActivity {
     /**
      * parses location names to identify if they are new or repeated. This way,
      * we know whether to add the location to our arraylist or not.
+     *
      */
     public void readLocations() {
         InputStream is = getResources().openRawResource(R.raw.locations);

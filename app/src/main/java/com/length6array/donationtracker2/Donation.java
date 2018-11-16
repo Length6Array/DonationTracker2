@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class representing Donation objects
+ */
 public class Donation {
 
     /*
@@ -79,8 +82,7 @@ public class Donation {
 
     public Donation() {
     }
-
-    ;
+    
 
     /**
      * getter for variable name
@@ -137,6 +139,7 @@ public class Donation {
 
     /**
      * setter to set date of item donation
+     *
      * @param dateAdded String
      */
     public void setDateAdded(String dateAdded) {
