@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This is the Person class.
@@ -13,9 +14,9 @@ import java.util.List;
  */
 public class Person {
 
-    public static HashMap<String, String> credentials = new HashMap<>();
+    public static Map<String, String> credentials = new HashMap<>();
 
-    public static ArrayList<Person> allUsers = new ArrayList<>();
+    public static List<Person> allUsers = new ArrayList<>();
 
     public static List<String> userTypes = Arrays.asList("User", "Admin", "Guest", "Location Employee");
 

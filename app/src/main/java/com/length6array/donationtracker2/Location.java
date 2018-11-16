@@ -21,7 +21,7 @@ import java.util.Map;
 public class Location {
 
 
-    public static ArrayList<Donation> allDonations = new ArrayList<>();
+    public static List<Donation> allDonations = new ArrayList<>();
     /**
      * An array of location objects.
      */
