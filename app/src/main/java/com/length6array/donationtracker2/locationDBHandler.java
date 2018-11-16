@@ -104,9 +104,7 @@ public class locationDBHandler extends SQLiteOpenHelper {
      * I got some errors using this in other classes, I have to go back in later and figure out
      * what's going on but if you wanna check what's happening I've been using
      * Log.i("CLASS_NAME DATABASE", cursor.getString(COL #) + "" ) and that works too
-     */
-
-    /**
+     *
      * converts location database selection to string
      * @return the string of the database
      */

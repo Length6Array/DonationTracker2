@@ -7,7 +7,7 @@ import android.widget.TextView;
 import android.content.Context;
 import android.widget.LinearLayout;
 
-import android.util.Log;
+//import android.util.Log;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -17,6 +17,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 
+/**
+ * Implements Google Maps
+ */
 public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;

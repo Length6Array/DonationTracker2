@@ -42,7 +42,7 @@ import java.util.List;
 public class Registration extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
     /** Keep track of the login task to ensure we can cancel it if requested. */
-    private UserLoginTask mAuthTask = null;
+    private UserLoginTask mAuthTask;
 
     // UI references.
     private AutoCompleteTextView mEmailView;
@@ -323,9 +323,9 @@ public class Registration extends AppCompatActivity implements LoaderCallbacks<C
                 // THIS IS THAT KEY IMPORTANT THING
                 Log.i("Registration", "Making new account");
                 Person p = new Person(mEmail, mPassword, mUserType);
-                if (personDBHandler.addPerson(p))
+                if (personDBHandler.addPerson(p)) {
                     Toast.makeText(Registration.this, "User added!", Toast.LENGTH_SHORT).show();
-                else {
+                } else {
                     Toast.makeText(Registration.this, "User not added!", Toast.LENGTH_SHORT).show();
                 }
                 Person.credentials.put(mEmail, mPassword);

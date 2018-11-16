@@ -24,10 +24,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+//import java.util.Arrays;
+//import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+//import java.util.Map;
 
 /**
  * An activity representing a list of Donations. This activity
@@ -66,8 +66,8 @@ public class DonationsListActivity extends AppCompatActivity {
 
 
     //used for filtering
-    int position1 = 0; //spinner position
-    int locationSelection = 0; //location spinner selection
+    int position1; //spinner position
+    int locationSelection; //location spinner selection
     ArrayList<String> locations = new ArrayList<>();
     ArrayList<Donation> donations = new ArrayList<>();
     String selection = "All";
@@ -88,10 +88,10 @@ public class DonationsListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
-        /**
-         *   THIS IS WHERE I GRAB THE LOCATION name. I basically tell the program, "hey
-         *    lemme get that thing i sent ya earlier" then I go and grab it via a key
-         */
+
+         //THIS IS WHERE I GRAB THE LOCATION name. I basically tell the program, "hey
+         //lemme get that thing i sent ya earlier" then I go and grab it via a key
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             location = extras.getString("Location");
@@ -383,9 +383,9 @@ public class DonationsListActivity extends AppCompatActivity {
         //basically for if the user backspaces all the way so that there's no characters
         //will just return the donations as have been sorted up to this point
         //if by filtering it causes no results, this is shown to the user
-        if (search == null || search.length() == 0){
+        if (search == null || search.isEmpty()){
             Log.i("Search", "search is empty or null");
-            if (donation.size() == 0) { //say "no items matching search"
+            if (donation.isEmpty()) { //say "no items matching search"
                 noItems.setVisibility(TextView.VISIBLE);
             } else {
                 noItems.setVisibility(TextView.INVISIBLE);
@@ -403,7 +403,7 @@ public class DonationsListActivity extends AppCompatActivity {
                     Log.i("Method Search Added ", donation.get(i).getName());
                 }
             }
-            if (sorted.size() == 0) { //say "no items matching search"
+            if (sorted.isEmpty()) { //say "no items matching search"
                 noItems.setVisibility(TextView.VISIBLE);
             } else {
                 noItems.setVisibility(TextView.INVISIBLE);
@@ -422,9 +422,7 @@ public class DonationsListActivity extends AppCompatActivity {
      * so it would cause compile errors bc those would be null
      * and only "databaseDonations", which was local to this class,
      * only had the data. Pls don't be dumb like me.
-     //     */
-
-    /**
+     *
      * This method pulls from the database and puts all the donations in the
      * Donation class's Arraylist: donations and Map: DONATION_MAP to be used
      * while the app is running

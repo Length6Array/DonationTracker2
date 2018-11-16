@@ -1,12 +1,6 @@
 package com.length6array.donationtracker2;
 
-import android.util.Log;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,12 +19,12 @@ public class Location {
     /**
      * An array of location objects.
      */
-    public static final ArrayList<Location> locations = new ArrayList<Location>();
+    public static final ArrayList<Location> locations = new ArrayList<>();
 
     /**
      * A map of locations, by name.
      */
-    public static final Map<String, Location> ITEM_MAP = new HashMap<String, Location>();
+    public static final Map<String, Location> ITEM_MAP = new HashMap<>();
 
 
     private static void addLocation(Location location) {

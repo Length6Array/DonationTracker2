@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     //
     //    protected static ArrayList<Person> allUsers = new ArrayList<>();
     /** Keep track of the login task to ensure we can cancel it if requested. */
-    private UserLoginTask mAuthTask = null;
+    private UserLoginTask mAuthTask;
 
     // UI references.
     private AutoCompleteTextView mEmailView;
