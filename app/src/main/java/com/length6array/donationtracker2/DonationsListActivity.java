@@ -118,7 +118,7 @@ public class DonationsListActivity extends AppCompatActivity {
         getUpdatedDatabase();
 
 
-        ArrayList<String> test = new ArrayList<>();
+        List<String> test = new ArrayList<>();
         Cursor cursor = myDBHandler.getAllDonations();
         if (cursor.moveToFirst()){
             do {
