@@ -40,13 +40,6 @@ public class PersonDBHandler extends SQLiteOpenHelper {
         public static final String COLUMN_PASSWORD = "password";
         public static final String COLUMN_USERTYPE = "userType";
 
-        /**
-         *
-         * @param context Context object representing context
-         * @param name String representing name
-         * @param factory SQLite DB representing factory
-         * @param version int representing version
-         */
         public PersonDBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
             super(context, DATABASE_NAME, factory, DATABASE_VERSION);
         }

@@ -82,7 +82,7 @@ public class Donation {
 
     public Donation() {
     }
-    
+
 
     /**
      * getter for variable name
