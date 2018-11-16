@@ -335,6 +335,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
+    /**
+     * This method sets emails to the person class
+     *
+     * @param email String representing a User's email
+     * @param password String representing a User's password
+     * @param userType String representing a User's userType
+     */
     public void setEmails(String email, String password, String userType) {
         Person p = new Person(email, password, userType);
         personDBHandler.addPerson(p);
