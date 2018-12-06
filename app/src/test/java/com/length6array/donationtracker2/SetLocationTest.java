@@ -7,7 +7,7 @@ import java.util.NoSuchElementException;
 import static org.junit.Assert.*;
 
 /**
- * JUnit tests for testing the setLocations() method in the Donation class.
+ * JUnit tests for testing the setLocation() method in the Donation class.
  *
  * @author Grace Mrosek
  */

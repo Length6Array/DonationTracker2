@@ -17,16 +17,13 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
+import android.widget.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,6 +52,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
     private Spinner userSpinner;
+    private int incorrectLogins = 0;
+    Button mEmailSignInButton;
 
     // Handler
     PersonDBHandler personDBHandler;
@@ -81,7 +80,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     }
                 });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(
                 new OnClickListener() {
                     @Override
@@ -148,6 +147,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             focusView = mEmailView;
             cancel = true;
         }
+
+
         if (cancel) {
             focusView.requestFocus();
         } else {
@@ -157,7 +158,19 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             if (mAuthTask.doInBackground()) {
                 startActivity((new Intent(LoginActivity.this, LocationListActivity.class)));
             } else {
-                //               //TODO
+                if (incorrectLogins == 3) {
+                    Toast toast = Toast.makeText(this,
+                            "You have failed to log in three times and have been locked out", Toast.LENGTH_LONG);
+                    View toastView = toast.getView();
+                    TextView toastMessage = (TextView) toastView.findViewById(android.R.id.message);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toastMessage.setCompoundDrawablePadding(16);
+                    toast.show();
+                    mEmailSignInButton.setEnabled(false);
+                } else {
+                    incorrectLogins--;
+                    //               //TODO
+                }
             }
         }
     }
@@ -297,21 +310,29 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             return true;
                         } else {
                             Log.i("LoginActivity", "Incorrect User");
+                            incorrectLogins++;
+                            System.out.println("incremented at 1");
                             return false;
                         }
                     } else {
                         Log.i("LoginActivity", "Incorrect password");
                         mPasswordView.setError(getString(R.string.error_incorrect_password));
+                        incorrectLogins++;
+                        System.out.println("incremented at 2");
                         return false;
                     }
                 } else {
                     Log.i("LoginActivity", "Incorrect/Unregistered email");
                     mEmailView.setError(getString(R.string.error_unregistered_email));
+                    incorrectLogins++;
+                    System.out.println("incremented at 3");
                     return false;
                 }
             }
             Log.i("LoginActivity", "Incorrect/Unregistered email");
             mEmailView.setError(getString(R.string.error_unregistered_email));
+            incorrectLogins++;
+            System.out.println("incremented at 4");
             return false;
         }
 

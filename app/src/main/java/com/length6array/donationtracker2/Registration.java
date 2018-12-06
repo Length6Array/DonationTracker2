@@ -4,9 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.LoaderManager.LoaderCallbacks;
-import android.content.CursorLoader;
-import android.content.Intent;
-import android.content.Loader;
+import android.content.*;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -15,6 +13,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -30,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
+import android.app.AlertDialog;
 
 /**
  * This page is long and crazy!!! Do not worry though!! (I don't even know what half this stuff is
@@ -51,6 +51,7 @@ public class Registration extends AppCompatActivity implements LoaderCallbacks<C
     private View mLoginFormView;
     private EditText reTypePassword;
     private Spinner userSpinner;
+    private String mText = "";
 
     PersonDBHandler personDBHandler;
 
@@ -156,21 +157,100 @@ public class Registration extends AppCompatActivity implements LoaderCallbacks<C
             focusView = mPasswordView;
             cancel = true;
         }
+
+        //Creates alert dialog for entering an authentication code for Admins and Location Employees
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle("Secure Authentication");
+        builder.setMessage("Please enter an authentication code");
+
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        builder.setView(input);
+
+        final String type = userType;
+        final String finalEmail = email;
+        final String finalPass = password;
+
+        //Runnable for reading the authentication code after it's been entered
+        //and the user selects "Confirm"
+        final Runnable readAuthentication = new Runnable() {
+            @Override
+            public void run() {
+                View focusView2 = null;
+                boolean cancel2 = false;
+
+                if (TextUtils.isEmpty(mText)) {
+                    input.setError(getString(R.string.error_field_required));
+                    focusView2 = input;
+                    cancel2 = true;
+                } else if (!(type.equals(mText))) {
+                    input.setError("Incorrect authentication code");
+                    focusView2 = mPasswordView;
+                    cancel2 = true;
+                }
+
+                if (cancel2) {
+                    // There was an error; don't attempt login and focus the first
+                    // form field with an error.
+                    focusView2.requestFocus();
+                } else {
+                    // Show a progress spinner, and kick off a background task to
+                    // perform the user login attempt.
+                    showProgress(true);
+
+                    // makes a new user, then goes to new Activity
+                    mAuthTask = new UserLoginTask(finalEmail, finalPass, type);
+                    mAuthTask.execute((Void) null);
+                    if (mAuthTask.doInBackground()) {
+                        Log.i("Registration", "Switching to main");
+                        startActivity(new Intent(Registration.this, LocationListActivity.class));
+                    }
+                }
+            }
+        };
+
+        //Action for when user presses "Confirm"
+        builder.setPositiveButton("Confirm",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mText = input.getText().toString();
+                        dialog.dismiss();
+                        readAuthentication.run();
+                    }
+                });
+
+        //Action for when user presses "Cancel"
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        AlertDialog dialog = builder.create();
+
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
             focusView.requestFocus();
         } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
-            showProgress(true);
+            //This will show the alert dialog to allow the user to enter the necessary
+            //authentication code
+            if (userType == "Admin" || userType == "Location Employee") {
+                dialog.show();
+            } else {
+                // Show a progress spinner, and kick off a background task to
+                // perform the user login attempt.
+                showProgress(true);
 
-            // makes a new user, then goes to new Activity
-            mAuthTask = new UserLoginTask(email, password, userType);
-            mAuthTask.execute((Void) null);
-            if (mAuthTask.doInBackground()) {
-                Log.i("Registration", "Switching to main");
-                startActivity(new Intent(Registration.this, LocationListActivity.class));
+                // makes a new user, then goes to new Activity
+                mAuthTask = new UserLoginTask(email, password, userType);
+                mAuthTask.execute((Void) null);
+                if (mAuthTask.doInBackground()) {
+                    Log.i("Registration", "Switching to main");
+                    startActivity(new Intent(Registration.this, LocationListActivity.class));
+                }
             }
         }
     }
