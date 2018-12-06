@@ -1,28 +1,44 @@
 package com.length6array.donationtracker2;
 
+import android.util.Log;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
- * This class is pretty self-explanatory. To note however: List locations is typically used to
- * propagate a Spinner Map ITEM_MAP is used mainly to check or get a location when we have the
- * location's name
+ * This class is pretty self-explanatory.
+ * To note however:
+ *     List locations is typically used to propagate a Spinner
+ *     Map ITEM_MAP is used mainly to check or get a location when we have the location's name
  */
 public class Location {
 
+
     public static ArrayList<Donation> allDonations = new ArrayList<>();
-    /** An array of location objects. */
+    /**
+     * An array of location objects.
+     */
     public static final ArrayList<Location> locations = new ArrayList<Location>();
 
-    /** A map of locations, by name. */
+    /**
+     * A map of locations, by name.
+     */
     public static final Map<String, Location> ITEM_MAP = new HashMap<String, Location>();
+
 
     private static void addLocation(Location location) {
         locations.add(location);
         ITEM_MAP.put(location.getName(), location);
     }
+
+
 
     private static String makeDetails(int position) {
         StringBuilder builder = new StringBuilder();
@@ -46,7 +62,33 @@ public class Location {
     private String website;
     public ArrayList<Donation> donationItems = new ArrayList<>();
 
-    public Location() {}
+
+    public Location(int key, String name, float latitude, float longitude, String address,
+                    String city, String state, int zipCode, String type, String phone,
+                    String website){
+        this.key = key;
+        this.name = name;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.address = address;
+        this.city = city;
+        this.state = state;
+        this.zipCode = zipCode;
+        this.type = type;
+        this.phone = phone;
+        this.website = website;
+        locations.add(this);
+    }
+
+
+    public Location(String name){
+        this(0, name, 0, 0, "", "", "",
+                0, "", "", "");
+    }
+
+    public Location(){
+        this("");
+    }
 
     public int getKey() {
         return key;
@@ -140,4 +182,6 @@ public class Location {
         donationItems.add(donation);
         allDonations.add(donation);
     }
+
+
 }
